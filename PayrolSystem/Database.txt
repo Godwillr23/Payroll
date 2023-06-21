@@ -1,0 +1,53 @@
+﻿Create Database PayrolSystemDB
+
+CREATE TABLE MasterLogin
+(
+	MasterID int primary key IDENTITY(1,1) NOT NULL,
+	FirstName varchar(30) NOT NULL,
+	LastName varchar(30) NOT NULL,
+	Email varchar(50) NULL,
+	LogPassword varchar(200) NOT NULL,
+	DateCreated varchar(50) NULL
+)
+
+
+INSERT INTO MasterLogin(FirstName, LastName,Email, LogPassword,DateCreated)
+VALUES ('Godwill', 'Rikhoto', 'Email', '8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92','1999/01/01')
+
+
+CREATE TABLE ClientDetails
+(
+	ClientID int primary key IDENTITY(1,1) NOT NULL,
+	CompanyID int NOT NULL,
+	UserRole varchar(20) NOT NULL,
+	FirstName varchar(30) NOT NULL,
+	LastName varchar(30) NOT NULL,
+	Gender varchar(10) NULL,
+	CellNo varchar(15) NULL,
+	Email varchar(50) NULL,
+	LogPassword varchar(200) NOT NULL,
+	DateCreated varchar(50) NULL,
+	ActiveStatus varchar(15) NOT NULL
+)
+
+CREATE TABLE CompanyDetails (
+    CompanyID int primary key IDENTITY(1,1) NOT NULL,
+	MasterID int NOT NULL,
+	CompanyCode varchar(30) NOT NULL,
+    CompanyName varchar(30) NOT NULL,
+	CompanyAddress text NULL,
+	PaymentDay varchar(10) NOT NULL,
+	PaymentStatus varchar(30) NOT NULL,
+	Level int NOT NULL,
+	ActiveStatus varchar(15) NOT NULL,
+	DateCreated varchar(50) NOT NULL
+)
+
+CREATE TABLE PaymentRecord (
+    PaymentID int primary key IDENTITY(1,1) NOT NULL,
+	CompanyID int NOT NULL,
+	PaymentType varchar(30) NULL,
+	PaymentStatus varchar(15) NOT NULL,
+	PaymentDate varchar(30) NOT NULL,
+	PaymentTime varchar(30) NOT NULL,
+)

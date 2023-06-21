@@ -1,0 +1,107 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.ClientDetail
+
+@{
+    ViewBag.Title = "Add Client";
+}
+
+<div class="jumbotron jumb-app">
+    <h2 style="margin-top: 0;">Add Client <span class="fa fa-shopping-cart"></span></h2>
+    @using (Html.BeginForm("AddClients", "Client", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        <p style="color:red; text-align:center; font-size:12px;">@Html.ValidationMessage("Error")</p>
+        if (Session["ClientsSuccess"] != null)
+        {
+            <p class="alert alert-success">@Session["ClientsSuccess"].ToString()</p>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Project:</label>
+                <br />
+                @Html.DropDownListFor(m => m.CompanyID, ViewData["Companies"] as List<SelectListItem>, "-Select Company-", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Client Role:</label>
+                <br />
+                @Html.DropDownListFor(x => x.UserRole, new SelectListItem[]{
+                 new SelectListItem() {Text = "-Select Role-", Value= ""},
+                 new SelectListItem() {Text = "Super Admin", Value= "Super Admin"},
+                 new SelectListItem() {Text = "Admin", Value= "Admin"},
+                 new SelectListItem() {Text = "Human Resource", Value= "Human Resource"}
+                }, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.UserRole, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.FirstName):
+                <br />
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.LastName):
+                <br />
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Gender:</label>
+                <br />
+                @Html.DropDownListFor(x => x.Gender, new SelectListItem[]{
+                 new SelectListItem() {Text = "-Select Gender-", Value= ""},
+                 new SelectListItem() {Text = "Male", Value= "Male"},
+                 new SelectListItem() {Text = "Female", Value= "Female"}
+                }, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.CellNo):
+                <br />
+                @Html.TextBoxFor(m => m.CellNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CellNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Email):
+                <br />
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Username):
+                <br />
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.LogPassword):
+                <br />
+                @Html.PasswordFor(m => m.LogPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.LogPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

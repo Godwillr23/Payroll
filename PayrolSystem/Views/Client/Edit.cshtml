@@ -1,0 +1,92 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.ClientDetail
+@{
+    ViewBag.Title = "Edit Organizations Details";
+}
+<h2 style="color: #ccc;">@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Edit", "Client", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationMessage("Error")
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserRole, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.UserRole, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select User Role-", Value= ""},
+             new SelectListItem() {Text = "Admin", Value= "Admin"},
+             //new SelectListItem() {Text = "Admin", Value= "Admin"}
+            }, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.UserRole, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CellNo, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CellNo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CellNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ActiveStatus, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.ActiveStatus, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select Active Status-", Value= ""},
+             new SelectListItem() {Text = "True", Value= "True"},
+             new SelectListItem() {Text = "false", Value= "false"}
+            }, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ActiveStatus, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.ClientID, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.CompanyID, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.LogPassword, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.DateCreated, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.Gender, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Save" />
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Clients")
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

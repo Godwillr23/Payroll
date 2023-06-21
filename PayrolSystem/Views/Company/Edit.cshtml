@@ -1,0 +1,101 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.CompanyDetail
+@{
+    ViewBag.Title = "Edit Organizations Details";
+}
+<h2 style="color: #ccc;">@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Edit", "Company", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationMessage("Error")
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CompanyName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CompanyName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CompanyAddress, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CompanyAddress, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CompanyAddress, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PaymentDay, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PaymentDay, new { @class = "form-control", type="number" })
+            @Html.ValidationMessageFor(m => m.PaymentDay, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PaymentStatus, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.PaymentStatus, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select Payment Status-", Value= ""},
+             new SelectListItem() {Text = "Paid", Value= "Paid"},
+             new SelectListItem() {Text = "UnPaid", Value= "UnPaid"}          
+            }, new { @class = "form-control", id = "PaymentStatus", @onchange = "setActiveStatus()", disabled = "disabled" })
+            @Html.ValidationMessageFor(m => m.PaymentStatus, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Level, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Level, new SelectListItem[]{
+                 new SelectListItem() {Text = "-Select Level-", Value= ""},
+                 new SelectListItem() {Text = "1", Value= "1"},
+                 new SelectListItem() {Text = "2", Value= "2"},
+                 new SelectListItem() {Text = "3", Value= "3"},
+                 new SelectListItem() {Text = "4", Value= "4"},
+                 new SelectListItem() {Text = "5", Value= "5"}
+            }, new { @class = "form-control"})
+            @Html.ValidationMessageFor(m => m.Level, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ActiveStatus, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.ActiveStatus, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select Active Status-", Value= ""},
+             new SelectListItem() {Text = "True", Value= "True"},
+             new SelectListItem() {Text = "False", Value= "False"}
+            }, new { @class = "form-control", disabled = "disabled", id = "ActiveStatus" })
+            @Html.ValidationMessageFor(m => m.ActiveStatus, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.CompanyID, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.CompanyCode, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.DateCreated, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.MasterID, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Save" />
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Organizations")
+    </div>
+}
+
+<script type="text/javascript">
+    function setActiveStatus() {
+        document.getElementById("ActiveStatus").selectedIndex = document.getElementById("PaymentStatus").selectedIndex;
+    }
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

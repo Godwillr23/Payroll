@@ -1,0 +1,121 @@
+﻿@model IEnumerable<PayrolSystem.Models.DatabaseFirst.PaymentRecord>
+
+@{
+    ViewBag.Title = "Payment Record";
+}
+
+@functions {
+
+    PayrolSystem.Models.DatabaseFirst.PayrolSystemDBEntities _context = new PayrolSystem.Models.DatabaseFirst.PayrolSystemDBEntities();
+
+    public string getCompanyName(int id)
+    {
+
+        string companyname = (from e in _context.CompanyDetails where e.CompanyID == id select e.CompanyName).FirstOrDefault();
+
+        return companyname;
+    }
+
+}
+
+
+
+<style type="text/css">
+    .col-md-10 {
+        color: #fff;
+    }
+
+    #radio label {
+        float: right;
+        display: inline;
+    }
+
+    label {
+        margin-top: 7px !important;
+    }
+
+    radio {
+        display: inline;
+    }
+
+    p {
+        margin: 0px 10px 10px;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+        margin: 0;
+        margin-left: 20px;
+        line-height: normal;
+        margin-bottom: 10px;
+    }
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px green;
+    }
+</style>
+
+<div class="jumbotron">
+    <h2 style="margin-top: 0;">Payment History</h2>
+    @using (Html.BeginForm("Search", "PaymentHistory", FormMethod.Get))
+    {
+        <div style="display: inline-flex;">
+            <input type="text" name="q" required class="form-control" style="width:250px" />
+            <input type="submit" value="Search" class="btn btn-warning" id="btnSubmit" style="width:150px;margin-left: 10px;" />
+        </div>
+        <br />
+    }
+    @if (Model.Count() > 0)
+    {
+        <div style="overflow:auto;">
+            <table class="table table-hover table-condensed" style="width:100%;margin: 10px;color:midnightblue">
+                <thead style="background-color:midnightblue; color:#fff;">
+                    <tr>
+                        <td><b>Payment ID</b></td>
+                        <td><b>Company Name</b></td>
+                        <td><b>Payment Type</b></td>
+                        <td><b>Payment Status</b></td>
+                        <td><b>Payment Date</b></td>
+                        <td><b>Payment Time</b></td>
+                    </tr>
+                </thead>
+                @foreach (var prod in Model)
+                {
+                    <tr>
+                        <td>@prod.PaymentID</td>
+                        <td>@getCompanyName(prod.CompanyID)</td>
+                        <td>@prod.PaymentType</td>
+                        <td>@prod.PaymentStatus</td>
+                        <td>@prod.PaymentDate</td>
+                        <td>@prod.PaymentTime</td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    }
+    @if (Model.Count() < 1)
+    {
+        <br />
+        <div class="alert alert-danger">
+            <p style="text-align:center; color:red; font-size:14px;">No Payment found</p>
+        </div>
+    }
+    <br />
+    <span class="alert alert-info">Total Payments: @Model.Count()</span>
+    <br />
+
+    <button style="float:right" class="btn btn-primary" type="button" onclick="redirect()">Add Payment</button>
+</div>
+
+<script>
+    function redirect() {
+        window.location.href = "AddPayment";
+    }
+</script>
+

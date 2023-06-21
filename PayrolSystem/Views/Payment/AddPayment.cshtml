@@ -1,0 +1,48 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.PaymentRecord
+
+@{
+    ViewBag.Title = "Add Payment";
+}
+
+<div class="jumbotron jumb-app">
+    <h2 style="margin-top: 0;">Add Payment <span class="fa fa-shopping-cart"></span></h2>
+    @using (Html.BeginForm("AddPayment", "Payment", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        <p style="color:red; text-align:center; font-size:12px;">@Html.ValidationMessage("Error")</p>
+        if (Session["PaymentSuccess"] != null)
+        {
+            <p class="alert alert-success">@Session["PaymentSuccess"].ToString()</p>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Project:</label>
+                <br />
+                @Html.DropDownListFor(m => m.CompanyID, ViewData["Companies"] as List<SelectListItem>, "-Select Company-", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CompanyID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Payment Type:</label>
+                <br />
+                @Html.DropDownListFor(x => x.PaymentType, new SelectListItem[]{
+                 new SelectListItem() {Text = "-Select Payment Type-", Value= ""},
+                 new SelectListItem() {Text = "EFT", Value= "EFT"},
+                 new SelectListItem() {Text = "Cash Send", Value= "Cash Send"},
+                 new SelectListItem() {Text = "Bank Transfer", Value= "Bank Transfer"}
+                }, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PaymentType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

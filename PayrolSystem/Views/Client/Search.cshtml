@@ -1,0 +1,135 @@
+﻿@model IEnumerable<PayrolSystem.Models.DatabaseFirst.ClientDetail>
+
+@{
+    ViewBag.Title = "List of Clients";
+}
+
+@functions {
+
+    PayrolSystem.Models.DatabaseFirst.PayrolSystemDBEntities _context = new PayrolSystem.Models.DatabaseFirst.PayrolSystemDBEntities();
+
+    public string getCompanyName(int id)
+    {
+
+        string companyname = (from e in _context.CompanyDetails where e.CompanyID == id select e.CompanyName).FirstOrDefault();
+
+        return companyname;
+    }
+
+}
+
+
+
+<style type="text/css">
+    .col-md-10 {
+        color: #fff;
+    }
+
+    #radio label {
+        float: right;
+        display: inline;
+    }
+
+    label {
+        margin-top: 7px !important;
+    }
+
+    radio {
+        display: inline;
+    }
+
+    p {
+        margin: 0px 10px 10px;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+        margin: 0;
+        margin-left: 20px;
+        line-height: normal;
+        margin-bottom: 10px;
+    }
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px green;
+    }
+</style>
+
+<div class="jumbotron">
+    <h2 style="margin-top: 0;">Clients</h2>
+    @using (Html.BeginForm("Search", "Client", FormMethod.Get))
+    {
+        <div style="display: inline-flex;">
+            <input type="text" name="q" required class="form-control" style="width:250px" />
+            <input type="submit" value="Search" class="btn btn-warning" id="btnSubmit" style="width:150px;margin-left: 10px;" />
+        </div>
+        <br />
+    }
+    @if (Model.Count() > 0)
+    {
+        <div style="overflow:auto;">
+            <table class="table table-hover table-condensed" style="width:100%;margin: 10px;color:midnightblue">
+                <thead style="background-color:midnightblue; color:#fff;">
+                    <tr>
+                        <td><b>Client ID</b></td>
+                        <td><b>Company Name</b></td>
+                        <td><b>Role</b></td>
+                        <td><b>Firstname</b></td>
+                        <td><b>Lastname</b></td>
+                        <td><b>Gender</b></td>
+                        <td><b>Cellphone No.</b></td>
+                        <td><b>Email Address</b></td>
+                        <td><b>Username</b></td>
+                        <td><b>Status</b></td>
+                        <td><b>Date Created</b></td>
+                        <td class="DeleteRow"><b></b></td>
+                    </tr>
+                </thead>
+                @foreach (var prod in Model)
+                {
+                    <tr>
+                        <td>@prod.ClientID</td>
+                        <td>@getCompanyName(prod.CompanyID)</td>
+                        <td>@prod.UserRole</td>
+                        <td>@prod.FirstName</td>
+                        <td>@prod.LastName</td>
+                        <td>@prod.Gender</td>
+                        <td>@prod.CellNo</td>
+                        <td>@prod.Email</td>
+                        <td>@prod.Username</td>
+                        <td>@prod.ActiveStatus</td>
+                        <td>@prod.DateCreated</td>
+                        <td class="DeleteRow">
+                            <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.ClientID })</span> |
+                            <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.ClientID })</span>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    }
+    @if (Model.Count() < 1)
+    {
+        <div class="alert alert-danger">
+            <p style="text-align:center; color:red; font-size:14px;">No Client found</p>
+        </div>
+    }
+    <br />
+    <span class="alert alert-info">Total Clients: @Model.Count()</span>
+    <br />
+
+    <button style="float:right" class="btn btn-primary" type="button" onclick="redirect()">Add Clients</button>
+</div>
+
+<script>
+    function redirect() {
+        window.location.href = "AddClients";
+    }
+</script>
+
