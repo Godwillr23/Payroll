@@ -34,12 +34,10 @@ namespace PayrollClient.Controllers
                 {
                     if (string.Compare(Crypto.Hash(model.LogPassword), v.LogPassword) == 0)
                     {
+                        var IsUserActive = _context.ClientDetails.Where(r => r.Email == model.Email).FirstOrDefault();
 
-                        var IsUserLegit = _context.ClientDetails.Where(r => r.Email == model.Email);
-
-                        if (IsUserLegit != null)
+                        if (IsUserActive.ActiveStatus == "True")
                         {
-
                             int timeout = 2800; // 525600 min = 1 year
                             var ticket = new FormsAuthenticationTicket(model.Email, true, timeout);
                             string encrypted = FormsAuthentication.Encrypt(ticket);
@@ -61,7 +59,7 @@ namespace PayrollClient.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("Error", "Invalid Password");
+                            ModelState.AddModelError("Error", "Account not Active, Please contact support.");
                         }
                     }
                     else

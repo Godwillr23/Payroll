@@ -46,7 +46,7 @@ namespace PayrolSystem.Controllers
 
             if (!string.IsNullOrWhiteSpace(q))
             {
-                user = user.Where(s => s.FirstName.Contains(q) || s.LastName.Contains(q) || s.Gender.Contains(q) || s.Email.Contains(q) || s.CellNo.Contains(q) || s.Username.Contains(q) || s.UserRole.Contains(q) || s.ActiveStatus.Contains(q) || s.DateCreated.Contains(q));
+                user = user.Where(s => s.FirstName.Contains(q) || s.LastName.Contains(q) || s.Gender.Contains(q) || s.Email.Contains(q) || s.CellNo.Contains(q) || s.UserRole.Contains(q) || s.ActiveStatus.Contains(q) || s.DateCreated.Contains(q));
             }
             else
             {
@@ -147,7 +147,7 @@ namespace PayrolSystem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var userToUpdate = _context.ClientDetails.Find(id);
-            if (TryUpdateModel(userToUpdate, "", new string[] { "ClientID", "UserRole", "FirstName", "LastName", "CellNo", "Email", "Username", "ActiveStatus"}))
+            if (TryUpdateModel(userToUpdate, "", new string[] { "ClientID", "UserRole", "FirstName", "LastName", "CellNo", "Email", "ActiveStatus"}))
             {
                 try
                 {
