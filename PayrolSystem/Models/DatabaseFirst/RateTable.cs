@@ -7,18 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PayrollClient.Models
+namespace PayrolSystem.Models.DatabaseFirst
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class PaymentRecord
+    public partial class RateTable
     {
-        public int PaymentID { get; set; }
+        public int RateID { get; set; }
         public int CompanyID { get; set; }
-        public string PaymentType { get; set; }
-        public string PaymentStatus { get; set; }
-        public string PaymentDate { get; set; }
-        public string PaymentTime { get; set; }
+        public string JobTitle { get; set; }
+        public string RatePerHour { get; set; }
     }
 }

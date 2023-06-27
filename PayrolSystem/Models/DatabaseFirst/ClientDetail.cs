@@ -10,43 +10,20 @@
 namespace PayrolSystem.Models.DatabaseFirst
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
-
-
+    using System.Collections.Generic;
+    
     public partial class ClientDetail
     {
         public int ClientID { get; set; }
         public int CompanyID { get; set; }
-
-        [Display(Name = "User Role")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Provide User Role")]
+        public string JobTitle { get; set; }
         public string UserRole { get; set; }
-
-        [Display(Name = "First Name")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Provide First Name")]
         public string FirstName { get; set; }
-
-        [Display(Name = "Last Name")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Provide Last Name")]
         public string LastName { get; set; }
-
-        [Display(Name = "Gender")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Provide Gender")]
         public string Gender { get; set; }
-
-        [Display(Name = "Cell Number")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Provide Cell Number")]
         public string CellNo { get; set; }
-
-        [Display(Name = "Email Address")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Provide Email Address")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
-
-        [Display(Name = "Password")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Provide Password")]
         public string LogPassword { get; set; }
-
         public string DateCreated { get; set; }
         public string ActiveStatus { get; set; }
     }

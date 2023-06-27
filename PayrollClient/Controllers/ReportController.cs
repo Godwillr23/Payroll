@@ -6,8 +6,9 @@ using System.Web.Mvc;
 
 namespace PayrollClient.Controllers
 {
-    public class HomeController : Controller
+    public class ReportController : Controller
     {
+        // GET: Report
         public ActionResult Index()
         {
             return View();

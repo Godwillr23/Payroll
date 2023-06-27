@@ -12,17 +12,13 @@ namespace PayrolSystem.Models.DatabaseFirst
     using System;
     using System.Collections.Generic;
     
-    public partial class CompanyDetail
+    public partial class ScheduleTable
     {
-        public int CompanyID { get; set; }
-        public int MasterID { get; set; }
-        public string CompanyCode { get; set; }
-        public string CompanyName { get; set; }
-        public string CompanyAddress { get; set; }
-        public string PaymentDay { get; set; }
-        public string PaymentStatus { get; set; }
-        public int Level { get; set; }
-        public string ActiveStatus { get; set; }
-        public string DateCreated { get; set; }
+        public int ScheduleID { get; set; }
+        public int SiteID { get; set; }
+        public int EmployeeID { get; set; }
+        public string WordShift { get; set; }
+        public string RequestedDays { get; set; }
+        public string Availability { get; set; }
     }
 }

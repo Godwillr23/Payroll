@@ -12,13 +12,14 @@ CREATE TABLE MasterLogin
 
 
 INSERT INTO MasterLogin(FirstName, LastName,Email, LogPassword,DateCreated)
-VALUES ('Godwill', 'Rikhoto', 'Email', '8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92','1999/01/01')
+VALUES ('Godwill', 'Rikhoto', 'godwill@gmail.com', '8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92','1999/01/01')
 
 
 CREATE TABLE ClientDetails
 (
 	ClientID int primary key IDENTITY(1,1) NOT NULL,
 	CompanyID int NOT NULL,
+	JobTitle varchar(30) NOT NULL,
 	UserRole varchar(20) NOT NULL,
 	FirstName varchar(30) NOT NULL,
 	LastName varchar(30) NOT NULL,
@@ -50,4 +51,28 @@ CREATE TABLE PaymentRecord (
 	PaymentStatus varchar(15) NOT NULL,
 	PaymentDate varchar(30) NOT NULL,
 	PaymentTime varchar(30) NOT NULL,
+)
+
+CREATE TABLE RateTable (
+    RateID int primary key IDENTITY(1,1) NOT NULL,
+	CompanyID int NOT NULL,
+	JobTitle varchar(50) NOT NULL,
+	RatePerHour varchar(20) NOT NULL
+)
+
+CREATE TABLE SiteTable (
+    SiteID int primary key IDENTITY(1,1) NOT NULL,
+	CompanyID int NOT NULL,
+	Location varchar(30) NULL,
+	Period varchar(50) NOT NULL,
+	Requirement varchar(100) NOT NULL
+)
+
+CREATE TABLE ScheduleTable (
+    ScheduleID int primary key IDENTITY(1,1) NOT NULL,
+	SiteID int NOT NULL,
+	EmployeeID int NOT NULL,
+	WordShift varchar(30) NULL,
+	RequestedDays varchar(30) NULL,
+	Availability varchar(30) NULL
 )

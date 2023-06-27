@@ -17,7 +17,7 @@
         }
         <div class="form-group">
             <div class="col-md-10">
-                <label>Project:</label>
+                <label>Company:</label>
                 <br />
                 @Html.DropDownListFor(m => m.CompanyID, ViewData["Companies"] as List<SelectListItem>, "-Select Company-", new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.CompanyID, "", new { @class = "text-danger" })

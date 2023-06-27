@@ -1,0 +1,51 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.SiteTable
+
+@{
+    ViewBag.Title = "Add Site";
+}
+
+<div class="jumbotron jumb-app">
+    <h2 style="margin-top: 0;">Add Site <span class="fa fa-shopping-cart"></span></h2>
+    @using (Html.BeginForm("AddSite", "Site", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        <p style="color:red; text-align:center; font-size:12px;">@Html.ValidationMessage("Error")</p>
+        if (Session["SiteSuccess"] != null)
+        {
+            <p class="alert alert-success">@Session["SiteSuccess"].ToString()</p>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Location):
+                <br />
+                @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Period):
+                <br />
+                @Html.TextBoxFor(m => m.Period, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Period, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Requirement):
+                <br />
+                @Html.TextBoxFor(m => m.Requirement, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Requirement, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

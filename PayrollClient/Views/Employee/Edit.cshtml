@@ -1,10 +1,10 @@
 ﻿@model PayrolSystem.Models.DatabaseFirst.ClientDetail
 @{
-    ViewBag.Title = "Edit Client Details";
+    ViewBag.Title = "Edit Employee Details";
 }
 <h2 style="color: #ccc;">@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("Edit", "Client", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Edit", "Employee", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     <hr />
@@ -25,14 +25,16 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.UserRole, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.JobTitle, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.UserRole, new SelectListItem[]{
-             new SelectListItem() {Text = "-Select User Role-", Value= ""},
-             new SelectListItem() {Text = "Admin", Value= "Admin"},
-             //new SelectListItem() {Text = "Admin", Value= "Admin"}
+            @Html.DropDownListFor(m => m.JobTitle, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select Job Title-", Value= ""},
+             new SelectListItem() {Text = "HR", Value= "HR"},
+             new SelectListItem() {Text = "Security Guard", Value= "Security Guard"},
+             new SelectListItem() {Text = "Site Manager", Value= "Site Manager"},
+             new SelectListItem() {Text = "Other", Value= "Other"}
             }, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.UserRole, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.JobTitle, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -85,7 +87,7 @@
     </div>
 
     <div>
-        @Html.ActionLink("Back to List", "Clients")
+        @Html.ActionLink("Back to List", "Index")
     </div>
 }
 

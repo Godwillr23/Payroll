@@ -1,0 +1,12 @@
+﻿Admin
+------
+
+1. Create Roster
+2. Create Patterns
+3. Loading Rates
+4. Capturing Data
+5. Loading Sites
+6. Loading Users
+7. Exporting to Excell and PDF
+
+ClientAccountController

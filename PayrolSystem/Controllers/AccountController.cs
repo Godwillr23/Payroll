@@ -8,7 +8,6 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 using PayrolSystem.Models.DatabaseFirst;
-//using PayrolSystem.Models.ViewModel;
 
 
 namespace PayrolSystem.Controllers

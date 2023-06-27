@@ -1,0 +1,53 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.SiteTable
+@{
+    ViewBag.Title = "Edit Site Details";
+}
+<h2 style="color: #ccc;">@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Edit", "Site", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationMessage("Error")
+    <div class="form-group">
+        @Html.LabelFor(m => m.Location, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Period, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Period, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Period, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Requirement, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Requirement, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Requirement, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.SiteID, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.CompanyID, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Save" />
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

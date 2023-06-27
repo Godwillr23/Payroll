@@ -10,33 +10,21 @@ using System.Web.Mvc;
 using System.Web.Security;
 using PayrolSystem.Models.DatabaseFirst;
 
-namespace PayrolSystem.Controllers
+namespace PayrollClient.Controllers
 {
-    public class ClientController : Controller
+    public class RosterController : Controller
     {
+        // GET: Roster
         PayrolSystemDBEntities _context = new PayrolSystemDBEntities();
-
-        public ActionResult Clients()
+        public ActionResult Index()
         {
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            var clients = _context.ClientDetails.ToList();
+            var clients = _context.ClientDetails.Where(a => a.UserRole != "Admin").ToList();
             return View(clients);
-        }
-
-        public ActionResult AddClients()
-        {
-            if (Session["UserId"] == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            ViewBag.Companies = GetCompanies();
-            Session["ClientsSuccess"] = null;
-            return View();
         }
         [HttpGet]
         [AllowAnonymous]
@@ -46,7 +34,7 @@ namespace PayrolSystem.Controllers
 
             if (!string.IsNullOrWhiteSpace(q))
             {
-                user = user.Where(s => s.FirstName.Contains(q) || s.LastName.Contains(q) || s.Gender.Contains(q) || s.Email.Contains(q) || s.CellNo.Contains(q) || s.UserRole.Contains(q) || s.ActiveStatus.Contains(q) || s.DateCreated.Contains(q));
+                user = user.Where(s => s.FirstName.Contains(q) || s.LastName.Contains(q) || s.Gender.Contains(q) || s.Email.Contains(q) || s.CellNo.Contains(q) || s.UserRole.Contains(q) || s.JobTitle.Contains(q) || s.ActiveStatus.Contains(q) || s.DateCreated.Contains(q));
             }
             else
             {
@@ -56,14 +44,26 @@ namespace PayrolSystem.Controllers
             return View(user);
         }
 
+        public ActionResult AddEmployee()
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            Session["ClientsSuccess"] = null;
+            return View();
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult AddClients(ClientDetail model)
+        public ActionResult AddEmployee(ClientDetail model)
         {
             string userId = Session["UserId"].ToString();
             int userid = Convert.ToInt32(userId);
             //ViewBag.Companies = GetCompanies();
+            string companyId = Session["CompanyID"].ToString();
 
             if (ModelState.IsValid)
             {
@@ -71,6 +71,7 @@ namespace PayrolSystem.Controllers
                 model.DateCreated = DateTime.Now.Date.ToShortDateString();
                 model.ActiveStatus = "True";
                 model.JobTitle = "Admin";
+                model.CompanyID = Convert.ToInt32(companyId);
 
                 var ClientExist = IsClientsExist(model.FirstName, model.LastName, model.CompanyID);
                 var EmailExist = IsEmailExist(model.Email);
@@ -98,7 +99,7 @@ namespace PayrolSystem.Controllers
                 {
                     _context.SaveChanges();
                     Session["ClientsSuccess"] = "Client Added!";
-                    return RedirectToAction("Clients", "Client");
+                    return RedirectToAction("Index", "Employee");
 
                 }
                 catch (DbEntityValidationException e)
@@ -148,13 +149,13 @@ namespace PayrolSystem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var userToUpdate = _context.ClientDetails.Find(id);
-            if (TryUpdateModel(userToUpdate, "", new string[] { "ClientID", "UserRole", "FirstName", "LastName", "CellNo", "Email", "ActiveStatus"}))
+            if (TryUpdateModel(userToUpdate, "", new string[] { "ClientID", "JobTitle", "FirstName", "LastName", "CellNo", "Email", "ActiveStatus" }))
             {
                 try
                 {
                     _context.SaveChanges();
 
-                    return RedirectToAction("Clients");
+                    return RedirectToAction("Index");
                 }
                 catch (RetryLimitExceededException /* dex */)
                 {
@@ -190,22 +191,7 @@ namespace PayrolSystem.Controllers
             ClientDetail user = _context.ClientDetails.Find(id);
             _context.ClientDetails.Remove(user);
             _context.SaveChanges();
-            return RedirectToAction("Clients");
-        }
-
-        private static List<SelectListItem> GetCompanies()
-        {
-            // Create db context object here
-            PayrolSystemDBEntities dbContext = new PayrolSystemDBEntities();
-            //Get the value from database and then set it to ViewBag to pass it View
-            List<SelectListItem> project = dbContext.CompanyDetails.OrderBy(x => x.CompanyName).Select(c => new SelectListItem
-            {
-                Value = c.CompanyID.ToString(),
-                Text = c.CompanyName
-
-            }).ToList();
-
-            return project;
+            return RedirectToAction("Index");
         }
 
         public bool IsClientsExist(string name, string surname, int companyId)

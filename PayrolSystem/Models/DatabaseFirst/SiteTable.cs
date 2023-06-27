@@ -7,22 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PayrollClient.Models
+namespace PayrolSystem.Models.DatabaseFirst
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class CompanyDetail
+    public partial class SiteTable
     {
+        public int SiteID { get; set; }
         public int CompanyID { get; set; }
-        public int MasterID { get; set; }
-        public string CompanyCode { get; set; }
-        public string CompanyName { get; set; }
-        public string CompanyAddress { get; set; }
-        public string PaymentDay { get; set; }
-        public string PaymentStatus { get; set; }
-        public int Level { get; set; }
-        public string ActiveStatus { get; set; }
-        public string DateCreated { get; set; }
+        public string Location { get; set; }
+        public string Period { get; set; }
+        public string Requirement { get; set; }
     }
 }

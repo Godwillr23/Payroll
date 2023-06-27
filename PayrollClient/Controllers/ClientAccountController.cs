@@ -7,11 +7,12 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
-using PayrollClient.Models;
+using PayrolSystem.Models.DatabaseFirst;
 
-namespace PayrollClient.Controllers
+
+namespace PayrolClient.Controllers
 {
-    public class AccountController : Controller
+    public class ClientAccountController : Controller
     {
         PayrolSystemDBEntities _context = new PayrolSystemDBEntities();
         [Authorize]
@@ -34,10 +35,11 @@ namespace PayrollClient.Controllers
                 {
                     if (string.Compare(Crypto.Hash(model.LogPassword), v.LogPassword) == 0)
                     {
-                        var IsUserActive = _context.ClientDetails.Where(r => r.Email == model.Email).FirstOrDefault();
+                        var IsUserLegit = _context.ClientDetails.Where(r => r.Email == model.Email);
 
-                        if (IsUserActive.ActiveStatus == "True")
+                        if (IsUserLegit != null)
                         {
+
                             int timeout = 2800; // 525600 min = 1 year
                             var ticket = new FormsAuthenticationTicket(model.Email, true, timeout);
                             string encrypted = FormsAuthentication.Encrypt(ticket);
@@ -54,12 +56,13 @@ namespace PayrollClient.Controllers
                             Session["UserId"] = userid;
                             Session["Email"] = email;
                             Session["Names"] = v.FirstName + " " + v.LastName;
+                            Session["CompanyID"] = v.CompanyID;
 
                             return RedirectToAction("Index", "Home");
                         }
                         else
                         {
-                            ModelState.AddModelError("Error", "Account not Active, Please contact support.");
+                            ModelState.AddModelError("Error", "Invalid Password");
                         }
                     }
                     else
@@ -77,9 +80,8 @@ namespace PayrollClient.Controllers
 
         }
         [AllowAnonymous]
-        public ActionResult UserProfile()
+        public ActionResult ClientProfile()
         {
-
             string userEmail = Session["Email"].ToString();
 
             if (userEmail == null)
@@ -113,11 +115,11 @@ namespace PayrollClient.Controllers
 
                 try
                 {
-                    if (TryUpdateModel(userToUpdate, "", new string[] { "MasterID", "Firstname", "Lastname", "Email" }))
+                    if (TryUpdateModel(userToUpdate, "", new string[] { "ClientID", "JobTitle", "Firstname", "Lastname", "CellNo", "Email" }))
                     {
                         _context.SaveChanges();
 
-                        return RedirectToAction("MasterProfile", "Account");
+                        return RedirectToAction("ClientProfile", "ClientAccount");
                     }
                 }
                 catch (DbEntityValidationException e)
@@ -164,7 +166,7 @@ namespace PayrollClient.Controllers
 
             FormsAuthentication.SignOut();
             Session.RemoveAll();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Login", "ClientAccount");
         }
 
         [Authorize]
@@ -175,7 +177,7 @@ namespace PayrollClient.Controllers
         {
             FormsAuthentication.SignOut();
             Session.RemoveAll();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Login", "ClientAccount");
         }
     }
 }

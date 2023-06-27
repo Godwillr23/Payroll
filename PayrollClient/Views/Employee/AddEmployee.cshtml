@@ -1,37 +1,32 @@
 ﻿@model PayrolSystem.Models.DatabaseFirst.ClientDetail
 
 @{
-    ViewBag.Title = "Add Client";
+    ViewBag.Title = "Add Employee";
 }
 
 <div class="jumbotron jumb-app">
     <h2 style="margin-top: 0;">Add Client <span class="fa fa-shopping-cart"></span></h2>
-    @using (Html.BeginForm("AddClients", "Client", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("AddEmployee", "Employee", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
         <hr />
         <p style="color:red; text-align:center; font-size:12px;">@Html.ValidationMessage("Error")</p>
-        if (Session["ClientsSuccess"] != null)
+        if (Session["employeeSuccess"] != null)
         {
             <p class="alert alert-success">@Session["ClientsSuccess"].ToString()</p>
         }
         <div class="form-group">
             <div class="col-md-10">
-                <label>Company:</label>
+                <label>Job Title:</label>
                 <br />
-                @Html.DropDownListFor(m => m.CompanyID, ViewData["Companies"] as List<SelectListItem>, "-Select Company-", new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <label>Client Role:</label>
-                <br />
-                @Html.DropDownListFor(x => x.UserRole, new SelectListItem[]{
-                 new SelectListItem() {Text = "-Select Role-", Value= ""},
-                 new SelectListItem() {Text = "Admin", Value= "Admin"},
-                 //new SelectListItem() {Text = "Human Resource", Value= "Human Resource"}
+                @Html.DropDownListFor(x => x.JobTitle, new SelectListItem[]{
+                 new SelectListItem() {Text = "-Select Job Title-", Value= ""},
+                 new SelectListItem() {Text = "HR", Value= "HR"},
+                 new SelectListItem() {Text = "Security Guard", Value= "Security Guard"},
+                 new SelectListItem() {Text = "Site Manager", Value= "Site Manager"},
+                 new SelectListItem() {Text = "Other", Value= "Other"}
                 }, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.UserRole, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.JobTitle, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">

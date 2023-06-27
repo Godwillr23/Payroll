@@ -11,6 +11,7 @@
           </Key>
           <Property Name="ClientID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="JobTitle" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="UserRole" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
@@ -58,11 +59,44 @@
           <Property Name="PaymentDate" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="PaymentTime" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
+        <EntityType Name="RateTable">
+          <Key>
+            <PropertyRef Name="RateID" />
+          </Key>
+          <Property Name="RateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="JobTitle" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RatePerHour" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleTable">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiteID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="WordShift" Type="varchar" MaxLength="30" />
+          <Property Name="RequestedDays" Type="varchar" MaxLength="30" />
+          <Property Name="Availability" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="SiteTable">
+          <Key>
+            <PropertyRef Name="SiteID" />
+          </Key>
+          <Property Name="SiteID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="30" />
+          <Property Name="Period" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Requirement" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="PayrolSystemDBModelStoreContainer">
           <EntitySet Name="ClientDetails" EntityType="Self.ClientDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyDetails" EntityType="Self.CompanyDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MasterLogin" EntityType="Self.MasterLogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentRecord" EntityType="Self.PaymentRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RateTable" EntityType="Self.RateTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduleTable" EntityType="Self.ScheduleTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteTable" EntityType="Self.SiteTable" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -83,7 +117,10 @@
           <EntitySet Name="MasterLogins" EntityType="Self.MasterLogin" />
           <EntitySet Name="PaymentRecords" EntityType="PayrolSystemDBModel.PaymentRecord" />
           <EntitySet Name="CompanyDetails" EntityType="PayrolSystemDBModel.CompanyDetail" />
+          <EntitySet Name="ScheduleTables" EntityType="PayrolSystemDBModel.ScheduleTable" />
+          <EntitySet Name="SiteTables" EntityType="PayrolSystemDBModel.SiteTable" />
           <EntitySet Name="ClientDetails" EntityType="PayrolSystemDBModel.ClientDetail" />
+          <EntitySet Name="RateTables" EntityType="PayrolSystemDBModel.RateTable" />
         </EntityContainer>
         <EntityType Name="PaymentRecord">
           <Key>
@@ -111,12 +148,34 @@
           <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="ScheduleTable">
+          <Key>
+            <PropertyRef Name="ScheduleID" />
+          </Key>
+          <Property Name="ScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteID" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="WordShift" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="RequestedDays" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Availability" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SiteTable">
+          <Key>
+            <PropertyRef Name="SiteID" />
+          </Key>
+          <Property Name="SiteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Period" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Requirement" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="ClientDetail">
           <Key>
             <PropertyRef Name="ClientID" />
           </Key>
           <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="JobTitle" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="UserRole" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="FirstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
@@ -126,6 +185,15 @@
           <Property Name="LogPassword" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RateTable">
+          <Key>
+            <PropertyRef Name="RateID" />
+          </Key>
+          <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="JobTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RatePerHour" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -173,6 +241,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleTables">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.ScheduleTable">
+              <MappingFragment StoreEntitySet="ScheduleTable">
+                <ScalarProperty Name="Availability" ColumnName="Availability" />
+                <ScalarProperty Name="RequestedDays" ColumnName="RequestedDays" />
+                <ScalarProperty Name="WordShift" ColumnName="WordShift" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteTables">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.SiteTable">
+              <MappingFragment StoreEntitySet="SiteTable">
+                <ScalarProperty Name="Requirement" ColumnName="Requirement" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ClientDetails">
             <EntityTypeMapping TypeName="PayrolSystemDBModel.ClientDetail">
               <MappingFragment StoreEntitySet="ClientDetails">
@@ -185,8 +276,19 @@
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RateTables">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.RateTable">
+              <MappingFragment StoreEntitySet="RateTable">
+                <ScalarProperty Name="RatePerHour" ColumnName="RatePerHour" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="RateID" ColumnName="RateID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
