@@ -23,13 +23,18 @@ namespace PayrollClient.Controllers
                 return RedirectToAction("Login", "ClientAccount");
             }
 
-            var clients = _context.RateTables.ToList();
+            string companyId = Session["CompanyID"].ToString();
+            int CompId = Convert.ToInt32(companyId);
+
+            var clients = _context.RateTables.Where(a => a.CompanyID == CompId).ToList();
             return View(clients);
         }
         [HttpGet]
         [AllowAnonymous]
         public ViewResult Search(string q)
         {
+            string companyId = Session["CompanyID"].ToString();
+            int CompId = Convert.ToInt32(companyId);
 
             var user = from p in _context.RateTables select p;
 
@@ -39,7 +44,7 @@ namespace PayrollClient.Controllers
             }
             else
             {
-                user = from p in _context.RateTables select p;
+                user = from p in _context.RateTables.Where(a=> a.CompanyID == CompId) select p;
             }
 
             return View(user);

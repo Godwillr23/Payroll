@@ -1,0 +1,85 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.ScheduleTable
+
+@{
+    ViewBag.Title = "Create Schedule";
+}
+
+<div class="jumbotron jumb-app">
+    <h2 style="margin-top: 0;">Add Client <span class="fa fa-shopping-cart"></span></h2>
+    @using (Html.BeginForm("CreateSchedule", "Schedule", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        <p style="color:red; text-align:center; font-size:12px;">@Html.ValidationMessage("Error")</p>
+        if (Session["ScheduleSuccess"] != null)
+        {
+            <p class="alert alert-success">@Session["ScheduleSuccess"].ToString()</p>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Sites:</label>
+                <br />
+                @Html.DropDownListFor(m => m.SiteID, ViewData["Sites"] as List<SelectListItem>, "-Select Site-", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Employees:</label>
+                <br />
+                @Html.DropDownListFor(m => m.EmployeeID, ViewData["Employees"] as List<SelectListItem>, "-Select Employee-", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <label>Shifts:</label>
+                <br />
+                @Html.DropDownListFor(m => m.ShiftID, ViewData["Shifts"] as List<SelectListItem>, "-Select Shift-", new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.ScheduledDate):
+                <br />
+                @Html.TextBoxFor(m => m.ScheduledDate, new { @class = "form-control", onchange = "getDay()", type = "date", id = "ScheduledDate" })
+                @Html.ValidationMessageFor(m => m.ScheduledDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.ScheduledDay):
+                <br />
+                @Html.TextBoxFor(m => m.ScheduledDay, new { @class = "form-control", @readonly = "readonly", id = "ScheduledDay" })
+                @Html.ValidationMessageFor(m => m.ScheduledDay, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.Availability):
+                <br />
+                @Html.DropDownListFor(x => x.Availability, new SelectListItem[]{
+                 new SelectListItem() {Text = "-Select Job Title-", Value= ""},
+                 new SelectListItem() {Text = "Available", Value= "Available"},
+                 new SelectListItem() {Text = "Not Available", Value= "Not Available"}
+                }, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Availability, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+
+    function getDay() {
+       var date = document.getElementById("ScheduledDate").value;
+        alert(date);
+    }
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

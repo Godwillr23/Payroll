@@ -23,7 +23,10 @@ namespace PayrollClient.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var clients = _context.ClientDetails.Where(a => a.UserRole != "Admin").ToList();
+            string companyId = Session["CompanyID"].ToString();
+            int CompId = Convert.ToInt32(companyId);
+
+            var clients = _context.ScheduleTables.Where(a => a.CompanyID == CompId).ToList();
             return View(clients);
         }
         [HttpGet]

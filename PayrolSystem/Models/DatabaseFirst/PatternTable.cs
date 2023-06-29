@@ -12,13 +12,13 @@ namespace PayrolSystem.Models.DatabaseFirst
     using System;
     using System.Collections.Generic;
     
-    public partial class SiteTable
+    public partial class PatternTable
     {
-        public int SiteID { get; set; }
+        public int PatternID { get; set; }
         public int CompanyID { get; set; }
-        public string SiteName { get; set; }
-        public string Location { get; set; }
-        public string Period { get; set; }
-        public string Requirement { get; set; }
+        public string WorkShift { get; set; }
+        public string HoursWorked { get; set; }
+        public string ClockInTime { get; set; }
+        public string ClockOutTime { get; set; }
     }
 }

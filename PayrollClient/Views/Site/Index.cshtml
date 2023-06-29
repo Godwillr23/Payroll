@@ -44,7 +44,7 @@
 </style>
 
 <div class="jumbotron">
-    <h2 style="margin-top: 0;">Clients</h2>
+    <h2 style="margin-top: 0;">Sites</h2>
     @using (Html.BeginForm("Search", "Site", FormMethod.Get))
     {
         <div style="display: inline-flex;">
@@ -60,6 +60,7 @@
                 <thead style="background-color:midnightblue; color:#fff;">
                     <tr>
                         <td><b>Site ID</b></td>
+                        <td><b>Site Name</b></td>
                         <td><b>Location</b></td>
                         <td><b>Period</b></td>
                         <td><b>Requirement</b></td>
@@ -70,6 +71,7 @@
                 {
                 <tr>
                     <td>@prod.SiteID</td>
+                    <td>@prod.SiteName</td>
                     <td>@prod.Location</td>
                     <td>@prod.Period</td>
                     <td>@prod.Requirement</td>

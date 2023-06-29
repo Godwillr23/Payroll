@@ -1,0 +1,65 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.PatternTable
+
+@{
+    ViewBag.Title = "Create Shift";
+}
+
+<div class="jumbotron jumb-app">
+    <h2 style="margin-top: 0;">Add Client <span class="fa fa-shopping-cart"></span></h2>
+    @using (Html.BeginForm("AddShift", "Pattern", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <hr />
+        <p style="color:red; text-align:center; font-size:12px;">@Html.ValidationMessage("Error")</p>
+        if (Session["ShiftSuccess"] != null)
+        {
+            <p class="alert alert-success">@Session["ShiftSuccess"].ToString()</p>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.WorkShift):
+                <br />
+                @Html.TextBoxFor(m => m.WorkShift, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.WorkShift, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.HoursWorked):
+                <br />
+                @Html.TextBoxFor(m => m.HoursWorked, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.HoursWorked, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.ClockInTime):
+                <br />
+                @Html.TextBoxFor(m => m.ClockInTime, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ClockInTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.LabelFor(m => m.ClockOutTime):
+                <br />
+                @Html.TextBoxFor(m => m.ClockOutTime, new { @class = "form-control"})
+                @Html.ValidationMessageFor(m => m.ClockOutTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </div>
+    }
+</div>
+@*<script type="text/javascript">
+    function setClockOut() {
+
+    }
+</script>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

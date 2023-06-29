@@ -1,0 +1,30 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.PatternTable
+
+@{
+    ViewBag.Title = "Delete Shift";
+}
+
+<h2 style="color: #ccc;">Delete Shift</h2>
+
+<h3>Are you sure you want to delete this Shift?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkShift)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WorkShift)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Cancel", "Index")
+        </div>
+    }
+</div>

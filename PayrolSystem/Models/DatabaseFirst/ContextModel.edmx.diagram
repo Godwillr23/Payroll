@@ -8,10 +8,11 @@
         <EntityTypeShape EntityType="PayrolSystemDBModel.MasterLogin" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="PayrolSystemDBModel.PaymentRecord" Width="1.5" PointX="5.375" PointY="4.75" />
         <EntityTypeShape EntityType="PayrolSystemDBModel.CompanyDetail" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="PayrolSystemDBModel.ScheduleTable" Width="1.5" PointX="2.75" PointY="6.75" />
-        <EntityTypeShape EntityType="PayrolSystemDBModel.SiteTable" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="PayrolSystemDBModel.ClientDetail" Width="1.5" PointX="7.75" PointY="3.75" />
         <EntityTypeShape EntityType="PayrolSystemDBModel.RateTable" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PayrolSystemDBModel.PatternTable" Width="1.5" PointX="5.375" PointY="8.75" />
+        <EntityTypeShape EntityType="PayrolSystemDBModel.ScheduleTable" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="PayrolSystemDBModel.SiteTable" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

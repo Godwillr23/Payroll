@@ -163,7 +163,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContextModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\DatabaseFirst\ContextModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContextModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\DatabaseFirst\MasterLogin.cs">
+      <DependentUpon>ContextModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DatabaseFirst\PatternTable.cs">
       <DependentUpon>ContextModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DatabaseFirst\PaymentRecord.cs">
@@ -204,7 +212,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\DatabaseFirst\ContextModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ContextModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>ContextModel1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="Models\DatabaseFirst\ContextModel.edmx.diagram">
       <DependentUpon>ContextModel.edmx</DependentUpon>

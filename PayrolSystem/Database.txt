@@ -63,16 +63,28 @@ CREATE TABLE RateTable (
 CREATE TABLE SiteTable (
     SiteID int primary key IDENTITY(1,1) NOT NULL,
 	CompanyID int NOT NULL,
+	SiteName varchar(50) NULL,
 	Location varchar(30) NULL,
 	Period varchar(50) NOT NULL,
 	Requirement varchar(100) NOT NULL
 )
 
+CREATE TABLE PatternTable (
+    PatternID int primary key IDENTITY(1,1) NOT NULL,
+	CompanyID int NOT NULL,
+	WorkShift varchar(30) NULL,
+	HoursWorked varchar(30) NOT NULL,
+	ClockInTime varchar(30) NOT NULL,
+	ClockOutTime varchar(30) NOT NULL,
+)
+
 CREATE TABLE ScheduleTable (
     ScheduleID int primary key IDENTITY(1,1) NOT NULL,
+	CompanyID int NOT NULL,
 	SiteID int NOT NULL,
 	EmployeeID int NOT NULL,
-	WordShift varchar(30) NULL,
-	RequestedDays varchar(30) NULL,
+	ShiftID int NOT NULL,
+	ScheduledDate varchar(30) NULL,
+	ScheduledDay varchar(30) NULL,
 	Availability varchar(30) NULL
 )

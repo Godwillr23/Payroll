@@ -23,13 +23,19 @@ namespace PayrollClient.Controllers
                 return RedirectToAction("Login", "ClientAccount");
             }
 
-            var clients = _context.SiteTables.ToList();
+            string companyId = Session["CompanyID"].ToString();
+            int CompId = Convert.ToInt32(companyId);
+
+            var clients = _context.SiteTables.Where(a => a.CompanyID == CompId).ToList();
             return View(clients);
         }
         [HttpGet]
         [AllowAnonymous]
         public ViewResult Search(string q)
         {
+            string companyId = Session["CompanyID"].ToString();
+            int CompId = Convert.ToInt32(companyId);
+
             var site = from p in _context.SiteTables select p;
 
             if (!string.IsNullOrWhiteSpace(q))
@@ -38,7 +44,7 @@ namespace PayrollClient.Controllers
             }
             else
             {
-                site = from p in _context.SiteTables select p;
+                site = from p in _context.SiteTables.Where(a => a.CompanyID == CompId) select p;
             }
 
             return View(site);
@@ -132,7 +138,7 @@ namespace PayrollClient.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var siteToUpdate = _context.SiteTables.Find(id);
-            if (TryUpdateModel(siteToUpdate, "", new string[] { "Location", "Period", "Requirement" }))
+            if (TryUpdateModel(siteToUpdate, "", new string[] {"SiteName", "Location", "Period", "Requirement" }))
             {
                 try
                 {

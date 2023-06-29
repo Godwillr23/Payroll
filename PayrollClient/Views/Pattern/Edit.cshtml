@@ -1,0 +1,60 @@
+﻿@model PayrolSystem.Models.DatabaseFirst.PatternTable
+@{
+    ViewBag.Title = "Edit Shift Details";
+}
+<h2 style="color: #ccc;">@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Edit", "Pattern", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationMessage("Error")
+    <div class="form-group">
+        @Html.LabelFor(m => m.WorkShift, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.WorkShift, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.WorkShift, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.HoursWorked, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.HoursWorked, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.HoursWorked, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ClockInTime, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ClockInTime, new { @class = "col-md-2 control-label" })
+            @Html.ValidationMessageFor(m => m.ClockInTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ClockOutTime, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ClockOutTime, new { @class = "col-md-2 control-label" })
+            @Html.ValidationMessageFor(m => m.ClockOutTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.PatternID, new { @class = "form-control" })
+    </div>
+    <div class="form-group" style="display:none">
+        @Html.TextBoxFor(m => m.CompanyID, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Save" />
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

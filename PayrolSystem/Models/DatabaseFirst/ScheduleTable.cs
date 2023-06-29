@@ -15,10 +15,12 @@ namespace PayrolSystem.Models.DatabaseFirst
     public partial class ScheduleTable
     {
         public int ScheduleID { get; set; }
+        public int CompanyID { get; set; }
         public int SiteID { get; set; }
         public int EmployeeID { get; set; }
-        public string WordShift { get; set; }
-        public string RequestedDays { get; set; }
+        public int ShiftID { get; set; }
+        public string ScheduledDate { get; set; }
+        public string ScheduledDay { get; set; }
         public string Availability { get; set; }
     }
 }
