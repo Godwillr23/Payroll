@@ -27,7 +27,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.PaymentDay, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PaymentDay, new { @class = "form-control", type="number" })
+            @Html.TextBoxFor(m => m.PaymentDay, new { @class = "form-control", type = "number" })
             @Html.ValidationMessageFor(m => m.PaymentDay, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -37,9 +37,89 @@
             @Html.DropDownListFor(m => m.PaymentStatus, new SelectListItem[]{
              new SelectListItem() {Text = "-Select Payment Status-", Value= ""},
              new SelectListItem() {Text = "Paid", Value= "Paid"},
-             new SelectListItem() {Text = "UnPaid", Value= "UnPaid"}          
+             new SelectListItem() {Text = "UnPaid", Value= "UnPaid"}
             }, new { @class = "form-control", id = "PaymentStatus", @onchange = "setActiveStatus()", disabled = "disabled" })
             @Html.ValidationMessageFor(m => m.PaymentStatus, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Start Day:</label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(x => x.StartDay, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select Start Day-", Value= ""},
+             new SelectListItem() {Text = "1", Value= "1"},
+             new SelectListItem() {Text = "2", Value= "2"},
+             new SelectListItem() {Text = "3", Value= "3"},
+             new SelectListItem() {Text = "4", Value= "4"},
+             new SelectListItem() {Text = "5", Value= "5"},
+             new SelectListItem() {Text = "6", Value= "6"},
+             new SelectListItem() {Text = "7", Value= "7"},
+             new SelectListItem() {Text = "8", Value= "8"},
+             new SelectListItem() {Text = "9", Value= "9"},
+             new SelectListItem() {Text = "10", Value= "10"},
+             new SelectListItem() {Text = "11", Value= "11"},
+             new SelectListItem() {Text = "12", Value= "12"},
+             new SelectListItem() {Text = "13", Value= "13"},
+             new SelectListItem() {Text = "14", Value= "14"},
+             new SelectListItem() {Text = "15", Value= "15"},
+             new SelectListItem() {Text = "16", Value= "16"},
+             new SelectListItem() {Text = "17", Value= "17"},
+             new SelectListItem() {Text = "18", Value= "18"},
+             new SelectListItem() {Text = "19", Value= "19"},
+             new SelectListItem() {Text = "20", Value= "20"},
+             new SelectListItem() {Text = "21", Value= "21"},
+             new SelectListItem() {Text = "22", Value= "22"},
+             new SelectListItem() {Text = "23", Value= "23"},
+             new SelectListItem() {Text = "24", Value= "24"},
+             new SelectListItem() {Text = "25", Value= "25"},
+             new SelectListItem() {Text = "26", Value= "26"},
+             new SelectListItem() {Text = "27", Value= "27"},
+             new SelectListItem() {Text = "28", Value= "28"},
+             new SelectListItem() {Text = "29", Value= "29"},
+             new SelectListItem() {Text = "30", Value= "30"},
+             new SelectListItem() {Text = "31", Value= "31"},
+            }, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.StartDay, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label>End Day:</label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(x => x.EndDay, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select End Day-", Value= ""},
+             new SelectListItem() {Text = "1", Value= "1"},
+             new SelectListItem() {Text = "2", Value= "2"},
+             new SelectListItem() {Text = "3", Value= "3"},
+             new SelectListItem() {Text = "4", Value= "4"},
+             new SelectListItem() {Text = "5", Value= "5"},
+             new SelectListItem() {Text = "6", Value= "6"},
+             new SelectListItem() {Text = "7", Value= "7"},
+             new SelectListItem() {Text = "8", Value= "8"},
+             new SelectListItem() {Text = "9", Value= "9"},
+             new SelectListItem() {Text = "10", Value= "10"},
+             new SelectListItem() {Text = "11", Value= "11"},
+             new SelectListItem() {Text = "12", Value= "12"},
+             new SelectListItem() {Text = "13", Value= "13"},
+             new SelectListItem() {Text = "14", Value= "14"},
+             new SelectListItem() {Text = "15", Value= "15"},
+             new SelectListItem() {Text = "16", Value= "16"},
+             new SelectListItem() {Text = "17", Value= "17"},
+             new SelectListItem() {Text = "18", Value= "18"},
+             new SelectListItem() {Text = "19", Value= "19"},
+             new SelectListItem() {Text = "20", Value= "20"},
+             new SelectListItem() {Text = "21", Value= "21"},
+             new SelectListItem() {Text = "22", Value= "22"},
+             new SelectListItem() {Text = "23", Value= "23"},
+             new SelectListItem() {Text = "24", Value= "24"},
+             new SelectListItem() {Text = "25", Value= "25"},
+             new SelectListItem() {Text = "26", Value= "26"},
+             new SelectListItem() {Text = "27", Value= "27"},
+             new SelectListItem() {Text = "28", Value= "28"},
+             new SelectListItem() {Text = "29", Value= "29"},
+             new SelectListItem() {Text = "30", Value= "30"},
+             new SelectListItem() {Text = "31", Value= "31"},
+            }, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.EndDay, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">

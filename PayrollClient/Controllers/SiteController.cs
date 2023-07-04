@@ -40,7 +40,7 @@ namespace PayrollClient.Controllers
 
             if (!string.IsNullOrWhiteSpace(q))
             {
-                site = site.Where(s => s.Location.Contains(q) || s.Period.Contains(q) || s.Requirement.Contains(q));
+                site = site.Where(s => s.Location.Contains(q) || s.Period.Contains(q) || s.GuardsPerShift.Contains(q) || s.ShiftsRequired.Contains(q));
             }
             else
             {
@@ -74,7 +74,7 @@ namespace PayrollClient.Controllers
             {
                 model.CompanyID = Convert.ToInt32(companyId);
 
-                var siteExist = IsSiteExist(model.Location, model.Period, model.Requirement, model.CompanyID);
+                var siteExist = IsSiteExist(model.Location, model.Period, model.CompanyID);
 
                 if (siteExist)
                 {
@@ -138,7 +138,7 @@ namespace PayrollClient.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var siteToUpdate = _context.SiteTables.Find(id);
-            if (TryUpdateModel(siteToUpdate, "", new string[] {"SiteName", "Location", "Period", "Requirement" }))
+            if (TryUpdateModel(siteToUpdate, "", new string[] {"SiteName", "Location", "Period", "ShiftsRequired", "GuardsPerShift" }))
             {
                 try
                 {
@@ -183,11 +183,11 @@ namespace PayrollClient.Controllers
             return RedirectToAction("Index");
         }
 
-        public bool IsSiteExist(string location, string period, string requirement, int companyId)
+        public bool IsSiteExist(string location, string period, int companyId)
         {
             using (PayrolSystemDBEntities dc = new PayrolSystemDBEntities())
             {
-                var v = dc.SiteTables.Where(a => a.CompanyID == companyId && a.Location == location && a.Period == period && a.Requirement == requirement).FirstOrDefault();
+                var v = dc.SiteTables.Where(a => a.CompanyID == companyId && a.Location == location && a.Period == period).FirstOrDefault();
                 return v != null;
             }
         }

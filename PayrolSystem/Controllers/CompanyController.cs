@@ -34,7 +34,7 @@ namespace PayrolSystem.Controllers
 
             if (!string.IsNullOrWhiteSpace(q))
             {
-                companies = companies.Where(s => s.CompanyName.Contains(q) || s.CompanyAddress.Contains(q) || s.ActiveStatus.Contains(q) || s.DateCreated.Contains(q));
+                companies = companies.Where(s => s.CompanyName.Contains(q) || s.CompanyAddress.Contains(q) || s.ActiveStatus.Contains(q) || s.StartDay.Contains(q) || s.EndDay.Contains(q) || s.DateCreated.Contains(q));
             }
             else
             {
@@ -155,7 +155,7 @@ namespace PayrolSystem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var companyToUpdate = _context.CompanyDetails.Find(id);
-            if (TryUpdateModel(companyToUpdate, "", new string[] { "CompanyID", "CompanyName", "CompanyAddress", "PaymentStatus", "PaymentDay", "Level", "ActiveStatus" }))
+            if (TryUpdateModel(companyToUpdate, "", new string[] { "CompanyID", "CompanyName", "CompanyAddress", "PaymentStatus", "PaymentDay", "StartDay", "EndDay", "Level", "ActiveStatus" }))
             {
                 try
                 {

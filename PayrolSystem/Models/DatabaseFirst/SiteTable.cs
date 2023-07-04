@@ -19,6 +19,8 @@ namespace PayrolSystem.Models.DatabaseFirst
         public string SiteName { get; set; }
         public string Location { get; set; }
         public string Period { get; set; }
-        public string Requirement { get; set; }
+        public string TempPeriodMonths { get; set; }
+        public string ShiftsRequired { get; set; }
+        public string GuardsPerShift { get; set; }
     }
 }

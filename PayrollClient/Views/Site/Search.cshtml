@@ -63,23 +63,25 @@
                         <td><b>Site Name</b></td>
                         <td><b>Location</b></td>
                         <td><b>Period</b></td>
-                        <td><b>Requirement</b></td>
+                        <td><b>Shifts Required</b></td>
+                        <td><b>Guards Per Shift</b></td>
                         <td class="DeleteRow"><b></b></td>
                     </tr>
                 </thead>
                 @foreach (var prod in Model)
                 {
-                <tr>
-                    <td>@prod.SiteID</td>
-                    <td>@prod.SiteName</td>
-                    <td>@prod.Location</td>
-                    <td>@prod.Period</td>
-                    <td>@prod.Requirement</td>
-                    <td class="DeleteRow">
-                        <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.SiteID })</span> |
-                        <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.SiteID })</span>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@prod.SiteID</td>
+                        <td>@prod.SiteName</td>
+                        <td>@prod.Location</td>
+                        <td>@prod.Period</td>
+                        <td>@prod.ShiftsRequired</td>
+                        <td>@prod.GuardsPerShift</td>
+                        <td class="DeleteRow">
+                            <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.SiteID })</span> |
+                            <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.SiteID })</span>
+                        </td>
+                    </tr>
                 }
 
             </table>

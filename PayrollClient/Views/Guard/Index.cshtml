@@ -1,7 +1,7 @@
-﻿@model IEnumerable<PayrolSystem.Models.DatabaseFirst.CompanyDetail>
+﻿@model IEnumerable<PayrolSystem.Models.DatabaseFirst.GuardsDetail>
 
 @{
-    ViewBag.Title = "List of Organizations";
+    ViewBag.Title = "Guards";
 }
 
 <style type="text/css">
@@ -44,15 +44,14 @@
 </style>
 
 <div class="jumbotron">
-    <h2 style="margin-top: 0;">Organizations</h2>
-    @using (Html.BeginForm("Search", "Company", FormMethod.Get))
+    <h2 style="margin-top: 0;">Guards</h2>
+    @using (Html.BeginForm("Search", "Guard", FormMethod.Get))
     {
         <div style="display: inline-flex;">
             <input type="text" name="q" required class="form-control" style="width:250px" />
             <input type="submit" value="Search" class="btn btn-warning" id="btnSubmit" style="width:150px;margin-left: 10px;" />
         </div>
         <br />
-
     }
     @if (Model.Count() > 0)
     {
@@ -60,16 +59,15 @@
             <table class="table table-hover table-condensed" style="width:100%;margin: 10px;color:midnightblue">
                 <thead style="background-color:midnightblue; color:#fff;">
                     <tr>
-                        <td><b>Company ID</b></td>
-                        <td><b>Company Name</b></td>
-                        <td><b>Company Code</b></td>
-                        <td><b>Company Address</b></td>
-                        <td><b>Payment Day</b></td>
-                        <td><b>Payment Status</b></td>
-                        <td><b>Start Day</b></td>
-                        <td><b>Start Day</b></td>
-                        <td><b>Level</b></td>
-                        <td><b>Active</b></td>
+                        <td><b>Guard ID</b></td>
+                        <td><b>PersNo</b></td>
+                        <td><b>Firstname</b></td>
+                        <td><b>Lastname</b></td>
+                        <td><b>Gender</b></td>
+                        <td><b>Cellphone No.</b></td>
+                        <td><b>Email Address</b></td>
+                        <td><b>Grade</b></td>
+                        <td><b>Status</b></td>
                         <td><b>Date Created</b></td>
                         <td class="DeleteRow"><b></b></td>
                     </tr>
@@ -77,20 +75,19 @@
                 @foreach (var prod in Model)
                 {
                 <tr>
-                    <td>@prod.CompanyID</td>
-                    <td>@prod.CompanyName</td>
-                    <td>@prod.CompanyCode</td>
-                    <td>@prod.CompanyAddress</td>
-                    <td>@prod.PaymentDay</td>
-                    <td>@prod.PaymentStatus</td>
-                    <td>@prod.StartDay</td>
-                    <td>@prod.EndDay</td>
-                    <td>@prod.Level</td>
+                    <td>@prod.GuardsID</td>
+                    <td>@prod.PersNo</td>
+                    <td>@prod.FirstName</td>
+                    <td>@prod.LastName</td>
+                    <td>@prod.Gender</td>
+                    <td>@prod.CellNo</td>
+                    <td>@prod.Email</td>
+                    <td>@prod.Grade</td>
                     <td>@prod.ActiveStatus</td>
                     <td>@prod.DateCreated</td>
                     <td class="DeleteRow">
-                        <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.CompanyID })</span> |
-                        <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.CompanyID })</span>
+                        <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.GuardsID })</span> |
+                        <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.GuardsID })</span>
                     </td>
                 </tr>
                 }
@@ -101,20 +98,20 @@
     }
     @if (Model.Count() < 1)
     {
-        <br />
         <div class="alert alert-danger">
-            <p style="text-align:center; color:red; font-size:14px;">No Organization found</p>
+            <p style="text-align:center; color:red; font-size:14px;">No Guard found</p>
         </div>
     }
     <br />
-    <span class="alert alert-info">Total Organizations: @Model.Count()</span>
+    <span class="alert alert-info">Total Guard: @Model.Count()</span>
     <br />
 
-    <button style="float:right" class="btn btn-primary" type="button" onclick="redirect()">Add Organization</button>
+    <button style="float:right" class="btn btn-primary" type="button" onclick="redirect()">Add Guard</button>
 </div>
+
 <script>
     function redirect() {
-        window.location.href = "AddOrganizations";
+        window.location.href = "AddEmployee";
     }
 </script>
 

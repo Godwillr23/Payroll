@@ -61,8 +61,13 @@
                     <tr>
                         <td><b>Company ID</b></td>
                         <td><b>Company Name</b></td>
+                        <td><b>Company Code</b></td>
                         <td><b>Company Address</b></td>
+                        <td><b>Payment Day</b></td>
                         <td><b>Payment Status</b></td>
+                        <td><b>Start Day</b></td>
+                        <td><b>Start Day</b></td>
+                        <td><b>Level</b></td>
                         <td><b>Active</b></td>
                         <td><b>Date Created</b></td>
                         <td class="DeleteRow"><b></b></td>
@@ -70,18 +75,23 @@
                 </thead>
                 @foreach (var prod in Model)
                 {
-                    <tr>
-                        <td>@prod.CompanyID</td>
-                        <td>@prod.CompanyName</td>
-                        <td>@prod.CompanyAddress</td>
-                        <td>@prod.ActiveStatus</td>
-                        <td>@prod.ActiveStatus</td>
-                        <td>@prod.DateCreated</td>
-                        <td class="DeleteRow">
-                            <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.CompanyID })</span> |
-                            <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.CompanyID })</span>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>@prod.CompanyID</td>
+                    <td>@prod.CompanyName</td>
+                    <td>@prod.CompanyCode</td>
+                    <td>@prod.CompanyAddress</td>
+                    <td>@prod.PaymentDay</td>
+                    <td>@prod.PaymentStatus</td>
+                    <td>@prod.StartDay</td>
+                    <td>@prod.EndDay</td>
+                    <td>@prod.Level</td>
+                    <td>@prod.ActiveStatus</td>
+                    <td>@prod.DateCreated</td>
+                    <td class="DeleteRow">
+                        <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.CompanyID })</span> |
+                        <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.CompanyID })</span>
+                    </td>
+                </tr>
                 }
 
             </table>

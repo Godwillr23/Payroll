@@ -12,19 +12,19 @@ namespace PayrolSystem.Models.DatabaseFirst
     using System;
     using System.Collections.Generic;
     
-    public partial class CompanyDetail
+    public partial class GuardsDetail
     {
+        public int GuardsID { get; set; }
         public int CompanyID { get; set; }
-        public int MasterID { get; set; }
-        public string CompanyCode { get; set; }
-        public string CompanyName { get; set; }
-        public string CompanyAddress { get; set; }
-        public string PaymentDay { get; set; }
-        public string PaymentStatus { get; set; }
-        public int Level { get; set; }
-        public string ActiveStatus { get; set; }
-        public string StartDay { get; set; }
-        public string EndDay { get; set; }
+        public string PersNo { get; set; }
+        public int UserID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Gender { get; set; }
+        public string CellNo { get; set; }
+        public string Email { get; set; }
+        public string Grade { get; set; }
         public string DateCreated { get; set; }
+        public string ActiveStatus { get; set; }
     }
 }

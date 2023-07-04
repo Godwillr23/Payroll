@@ -24,6 +24,9 @@ namespace PayrolSystem.Models.DatabaseFirst
         public string CellNo { get; set; }
         public string Email { get; set; }
         public string LogPassword { get; set; }
+        public bool AuthorityToCreateSchedule { get; set; }
+        public bool AuthorityAddGuards { get; set; }
+        public bool AuthorityViewRoster { get; set; }
         public string DateCreated { get; set; }
         public string ActiveStatus { get; set; }
     }

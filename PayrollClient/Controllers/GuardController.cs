@@ -12,10 +12,9 @@ using PayrolSystem.Models.DatabaseFirst;
 
 namespace PayrollClient.Controllers
 {
-    public class EmployeeController : Controller
+    public class GuardController : Controller
     {
-        // GET: Employee
-
+        // GET: Guard
         PayrolSystemDBEntities _context = new PayrolSystemDBEntities();
         public ActionResult Index()
         {
@@ -27,8 +26,8 @@ namespace PayrollClient.Controllers
             string companyId = Session["CompanyID"].ToString();
             int CompId = Convert.ToInt32(companyId);
 
-            var clients = _context.ClientDetails.Where(a=> a.CompanyID == CompId && a.UserRole != "Admin").ToList();
-            return View(clients);
+            var guard = _context.GuardsDetails.Where(a => a.CompanyID == CompId).ToList();
+            return View(guard);
         }
         [HttpGet]
         [AllowAnonymous]
@@ -37,21 +36,21 @@ namespace PayrollClient.Controllers
             string companyId = Session["CompanyID"].ToString();
             int CompId = Convert.ToInt32(companyId);
 
-            var user = from p in _context.ClientDetails select p;
+            var user = from p in _context.GuardsDetails select p;
 
             if (!string.IsNullOrWhiteSpace(q))
             {
-                user = user.Where(s => s.FirstName.Contains(q) || s.LastName.Contains(q) || s.Gender.Contains(q) || s.Email.Contains(q) || s.CellNo.Contains(q) || s.UserRole.Contains(q) || s.JobTitle.Contains(q) || s.ActiveStatus.Contains(q) || s.DateCreated.Contains(q));
+                user = user.Where(s => s.PersNo.Contains(q) || s.FirstName.Contains(q) || s.LastName.Contains(q) || s.Gender.Contains(q) || s.Email.Contains(q) || s.CellNo.Contains(q) || s.ActiveStatus.Contains(q) || s.DateCreated.Contains(q) || s.Grade.Contains(q));
             }
             else
             {
-                user = from p in _context.ClientDetails.Where(a=> a.CompanyID == CompId) select p;
+                user = from p in _context.GuardsDetails.Where(a => a.CompanyID == CompId) select p;
             }
 
             return View(user);
         }
 
-        public ActionResult AddEmployee()
+        public ActionResult AddGuard()
         {
             if (Session["UserId"] == null)
             {
@@ -60,7 +59,7 @@ namespace PayrollClient.Controllers
             string companyId = Session["CompanyID"].ToString();
             int CompId = Convert.ToInt32(companyId);
 
-            Session["employeeSuccess"] = null;
+            Session["guardSuccess"] = null;
             ViewBag.JobTitle = GetTitle(CompId);
             return View();
         }
@@ -68,7 +67,7 @@ namespace PayrollClient.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult AddEmployee(ClientDetail model)
+        public ActionResult AddGuard(GuardsDetail model)
         {
             string userId = Session["UserId"].ToString();
             int userid = Convert.ToInt32(userId);
@@ -76,11 +75,15 @@ namespace PayrollClient.Controllers
             string companyId = Session["CompanyID"].ToString();
             int CompId = Convert.ToInt32(companyId);
 
+            var lastId = _context.GuardsDetails.Find(_context.GuardsDetails.Max(p => p.GuardsID));
+            int convertedlasstID = Convert.ToInt32(lastId);
+
             if (ModelState.IsValid)
             {
                 //model.CompanyID = userid;
                 model.DateCreated = DateTime.Now.Date.ToShortDateString();
-                model.UserRole = "User";
+                model.PersNo = model.FirstName.Substring(0,1) + model.LastName.Substring(0, 1) + 
+                    model.Grade + model.CompanyID + "PP"+ convertedlasstID;
                 model.ActiveStatus = "True";
                 model.CompanyID = CompId;
 
@@ -104,15 +107,13 @@ namespace PayrollClient.Controllers
                     return View(model);
                 }
 
-                _context.ClientDetails.Add(model);
+                _context.GuardsDetails.Add(model);
 
                 try
                 {
                     _context.SaveChanges();
-                    Session["employeeSuccess"] = "Employee Added!";
-                    ViewBag.JobTitle = GetTitle(CompId);
-                    return RedirectToAction("Index", "Employee");
-
+                    Session["guardSuccess"] = "Guard Added!";
+                    return RedirectToAction("Index", "Guard");
                 }
                 catch (DbEntityValidationException e)
                 {

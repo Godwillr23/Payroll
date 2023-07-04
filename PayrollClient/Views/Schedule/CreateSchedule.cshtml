@@ -57,7 +57,7 @@
                 @Html.LabelFor(m => m.Availability):
                 <br />
                 @Html.DropDownListFor(x => x.Availability, new SelectListItem[]{
-                 new SelectListItem() {Text = "-Select Job Title-", Value= ""},
+                 new SelectListItem() {Text = "-Select Availability-", Value= ""},
                  new SelectListItem() {Text = "Available", Value= "Available"},
                  new SelectListItem() {Text = "Not Available", Value= "Not Available"}
                 }, new { @class = "form-control" })
@@ -73,10 +73,9 @@
 </div>
 
 <script type="text/javascript">
-
     function getDay() {
-       var date = document.getElementById("ScheduledDate").value;
-        alert(date);
+        var date = new Date(document.getElementById("ScheduledDate").value);
+        document.getElementById("ScheduledDay").value = date.toString().substring(0, 3);
     }
 </script>
 

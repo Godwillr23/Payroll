@@ -1,7 +1,7 @@
-﻿@model IEnumerable<PayrolSystem.Models.DatabaseFirst.ClientDetail>
+﻿@model IEnumerable<PayrolSystem.Models.DatabaseFirst.GuardsDetail>
 
 @{
-    ViewBag.Title = "Employees";
+    ViewBag.Title = "Guards";
 }
 
 <style type="text/css">
@@ -44,8 +44,8 @@
 </style>
 
 <div class="jumbotron">
-    <h2 style="margin-top: 0;">Employees</h2>
-    @using (Html.BeginForm("Search", "Employee", FormMethod.Get))
+    <h2 style="margin-top: 0;">Guards</h2>
+    @using (Html.BeginForm("Search", "Guard", FormMethod.Get))
     {
         <div style="display: inline-flex;">
             <input type="text" name="q" required class="form-control" style="width:250px" />
@@ -59,14 +59,14 @@
             <table class="table table-hover table-condensed" style="width:100%;margin: 10px;color:midnightblue">
                 <thead style="background-color:midnightblue; color:#fff;">
                     <tr>
-                        <td><b>Employee ID</b></td>
-                        <td><b>Role</b></td>
-                        <td><b>Title</b></td>
+                        <td><b>Guard ID</b></td>
+                        <td><b>PersNo</b></td>
                         <td><b>Firstname</b></td>
                         <td><b>Lastname</b></td>
                         <td><b>Gender</b></td>
                         <td><b>Cellphone No.</b></td>
                         <td><b>Email Address</b></td>
+                        <td><b>Grade</b></td>
                         <td><b>Status</b></td>
                         <td><b>Date Created</b></td>
                         <td class="DeleteRow"><b></b></td>
@@ -74,22 +74,22 @@
                 </thead>
                 @foreach (var prod in Model)
                 {
-                <tr>
-                    <td>@prod.ClientID</td>
-                    <td>@prod.UserRole</td>
-                    <td>@prod.JobTitle</td>
-                    <td>@prod.FirstName</td>
-                    <td>@prod.LastName</td>
-                    <td>@prod.Gender</td>
-                    <td>@prod.CellNo</td>
-                    <td>@prod.Email</td>
-                    <td>@prod.ActiveStatus</td>
-                    <td>@prod.DateCreated</td>
-                    <td class="DeleteRow">
-                        <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.ClientID })</span> |
-                        <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.ClientID })</span>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@prod.GuardsID</td>
+                        <td>@prod.PersNo</td>
+                        <td>@prod.FirstName</td>
+                        <td>@prod.LastName</td>
+                        <td>@prod.Gender</td>
+                        <td>@prod.CellNo</td>
+                        <td>@prod.Email</td>
+                        <td>@prod.Grade</td>
+                        <td>@prod.ActiveStatus</td>
+                        <td>@prod.DateCreated</td>
+                        <td class="DeleteRow">
+                            <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.GuardsID })</span> |
+                            <span class="btn btn-danger">@Html.ActionLink("Delete", "Delete", new { id = prod.GuardsID })</span>
+                        </td>
+                    </tr>
                 }
 
             </table>
@@ -103,10 +103,10 @@
         </div>
     }
     <br />
-    <span class="alert alert-info">Total Employees: @Model.Count()</span>
+    <span class="alert alert-info">Total Guard: @Model.Count()</span>
     <br />
 
-    <button style="float:right" class="btn btn-primary" type="button" onclick="redirect()">Add Employee</button>
+    <button style="float:right" class="btn btn-primary" type="button" onclick="redirect()">Add Guard</button>
 </div>
 
 <script>

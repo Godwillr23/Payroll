@@ -24,17 +24,57 @@
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Period, new { @class = "col-md-2 control-label" })
+        <label class = "col-md-2 control-label">Period:</label>
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Period, new { @class = "form-control" })
+            @Html.DropDownListFor(x => x.Period, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select Level-", Value= ""},
+             new SelectListItem() {Text = "Permanent", Value= "Permanent"},
+             new SelectListItem() {Text = "1 Month", Value= "1 Month"},
+             new SelectListItem() {Text = "2 Months", Value= "2 Months"},
+             new SelectListItem() {Text = "3 Months", Value= "3 Months"},
+             new SelectListItem() {Text = "4 Months", Value= "4 Months"},
+             new SelectListItem() {Text = "6 Months", Value= "6 Months"},
+             new SelectListItem() {Text = "7 Months", Value= "7 Months"},
+             new SelectListItem() {Text = "8 Months", Value= "8 Months"},
+             new SelectListItem() {Text = "9 Months", Value= "9 Months"},
+             new SelectListItem() {Text = "10 Months", Value= "10 Months"},
+             new SelectListItem() {Text = "11 Months", Value= "11 Months"},
+             new SelectListItem() {Text = "12 Months", Value= "12 Months"},
+             new SelectListItem() {Text = "18 Months", Value= "18 Months"},
+             new SelectListItem() {Text = "24 Months", Value= "24 Months"},
+             new SelectListItem() {Text = "36 Months", Value= "36 Months"},
+             new SelectListItem() {Text = "48 Months", Value= "48 Months"},
+             new SelectListItem() {Text = "60 Months", Value= "60 Months"},
+            }, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.Period, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Requirement, new { @class = "col-md-2 control-label" })
+        <label class = "col-md-2 control-label">Shifts Required:</label>
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Requirement, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Requirement, "", new { @class = "text-danger" })
+            @Html.DropDownListFor(x => x.ShiftsRequired, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select Shifts Required-", Value= ""},
+             new SelectListItem() {Text = "1", Value= "1"},
+             new SelectListItem() {Text = "2", Value= "2"},
+             new SelectListItem() {Text = "3", Value= "3"},
+             new SelectListItem() {Text = "4", Value= "4"},
+             new SelectListItem() {Text = "5", Value= "5"}
+            }, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ShiftsRequired, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class = "col-md-2 control-label">Guards Per Shift:</label>
+        <div class="col-md-10">
+            @Html.DropDownListFor(x => x.GuardsPerShift, new SelectListItem[]{
+             new SelectListItem() {Text = "-Select Guards Per Shift-", Value= ""},
+             new SelectListItem() {Text = "1", Value= "1"},
+             new SelectListItem() {Text = "2", Value= "2"},
+             new SelectListItem() {Text = "3", Value= "3"},
+             new SelectListItem() {Text = "4", Value= "4"},
+             new SelectListItem() {Text = "5", Value= "5"}
+            }, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.GuardsPerShift, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group" style="display:none">

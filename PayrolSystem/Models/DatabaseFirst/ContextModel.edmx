@@ -19,6 +19,9 @@
           <Property Name="CellNo" Type="varchar" MaxLength="15" />
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="LogPassword" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="AuthorityToCreateSchedule" Type="bit" Nullable="false" />
+          <Property Name="AuthorityAddGuards" Type="bit" Nullable="false" />
+          <Property Name="AuthorityViewRoster" Type="bit" Nullable="false" />
           <Property Name="DateCreated" Type="varchar" MaxLength="50" />
           <Property Name="ActiveStatus" Type="varchar" MaxLength="15" Nullable="false" />
         </EntityType>
@@ -35,7 +38,26 @@
           <Property Name="PaymentStatus" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Level" Type="int" Nullable="false" />
           <Property Name="ActiveStatus" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="StartDay" Type="varchar" MaxLength="30" />
+          <Property Name="EndDay" Type="varchar" MaxLength="30" />
           <Property Name="DateCreated" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GuardsDetails">
+          <Key>
+            <PropertyRef Name="GuardsID" />
+          </Key>
+          <Property Name="GuardsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="PersNo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="10" />
+          <Property Name="CellNo" Type="varchar" MaxLength="15" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Grade" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="DateCreated" Type="varchar" MaxLength="50" />
+          <Property Name="ActiveStatus" Type="varchar" MaxLength="15" Nullable="false" />
         </EntityType>
         <EntityType Name="MasterLogin">
           <Key>
@@ -55,9 +77,9 @@
           <Property Name="PatternID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="WorkShift" Type="varchar" MaxLength="30" />
-          <Property Name="HoursWorked" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="ClockInTime" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="ClockOutTime" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="HoursWorked" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ClockInTime" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ClockOutTime" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="PaymentRecord">
           <Key>
@@ -101,11 +123,14 @@
           <Property Name="SiteName" Type="varchar" MaxLength="50" />
           <Property Name="Location" Type="varchar" MaxLength="30" />
           <Property Name="Period" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Requirement" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TempPeriodMonths" Type="varchar" MaxLength="50" />
+          <Property Name="ShiftsRequired" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="GuardsPerShift" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityContainer Name="PayrolSystemDBModelStoreContainer">
           <EntitySet Name="ClientDetails" EntityType="Self.ClientDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyDetails" EntityType="Self.CompanyDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GuardsDetails" EntityType="Self.GuardsDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MasterLogin" EntityType="Self.MasterLogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PatternTable" EntityType="Self.PatternTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentRecord" EntityType="Self.PaymentRecord" Schema="dbo" store:Type="Tables" />
@@ -130,14 +155,35 @@
         </EntityType>
         <EntityContainer Name="PayrolSystemDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MasterLogins" EntityType="Self.MasterLogin" />
+          <EntitySet Name="RateTables" EntityType="PayrolSystemDBModel.RateTable" />
+          <EntitySet Name="PatternTables" EntityType="PayrolSystemDBModel.PatternTable" />
           <EntitySet Name="ClientDetails" EntityType="PayrolSystemDBModel.ClientDetail" />
           <EntitySet Name="CompanyDetails" EntityType="PayrolSystemDBModel.CompanyDetail" />
+          <EntitySet Name="GuardsDetails" EntityType="PayrolSystemDBModel.GuardsDetail" />
           <EntitySet Name="PaymentRecords" EntityType="PayrolSystemDBModel.PaymentRecord" />
-          <EntitySet Name="RateTables" EntityType="PayrolSystemDBModel.RateTable" />
           <EntitySet Name="ScheduleTables" EntityType="PayrolSystemDBModel.ScheduleTable" />
           <EntitySet Name="SiteTables" EntityType="PayrolSystemDBModel.SiteTable" />
-          <EntitySet Name="PatternTables" EntityType="PayrolSystemDBModel.PatternTable" />
         </EntityContainer>
+        <EntityType Name="RateTable">
+          <Key>
+            <PropertyRef Name="RateID" />
+          </Key>
+          <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="JobTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RatePerHour" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PatternTable">
+          <Key>
+            <PropertyRef Name="PatternID" />
+          </Key>
+          <Property Name="PatternID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="WorkShift" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="HoursWorked" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ClockInTime" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ClockOutTime" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="ClientDetail">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -152,6 +198,9 @@
           <Property Name="CellNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LogPassword" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AuthorityToCreateSchedule" Type="Boolean" Nullable="false" />
+          <Property Name="AuthorityAddGuards" Type="Boolean" Nullable="false" />
+          <Property Name="AuthorityViewRoster" Type="Boolean" Nullable="false" />
           <Property Name="DateCreated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
         </EntityType>
@@ -168,7 +217,26 @@
           <Property Name="PaymentStatus" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Level" Type="Int32" Nullable="false" />
           <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="StartDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EndDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="DateCreated" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="GuardsDetail">
+          <Key>
+            <PropertyRef Name="GuardsID" />
+          </Key>
+          <Property Name="GuardsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="PersNo" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CellNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Grade" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PaymentRecord">
           <Key>
@@ -180,15 +248,6 @@
           <Property Name="PaymentStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="PaymentDate" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="PaymentTime" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="RateTable">
-          <Key>
-            <PropertyRef Name="RateID" />
-          </Key>
-          <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyID" Type="Int32" Nullable="false" />
-          <Property Name="JobTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="RatePerHour" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ScheduleTable">
           <Key>
@@ -212,18 +271,9 @@
           <Property Name="SiteName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Location" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="Period" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Requirement" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="PatternTable">
-          <Key>
-            <PropertyRef Name="PatternID" />
-          </Key>
-          <Property Name="PatternID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyID" Type="Int32" Nullable="false" />
-          <Property Name="WorkShift" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="HoursWorked" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="ClockInTime" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="ClockOutTime" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TempPeriodMonths" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShiftsRequired" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GuardsPerShift" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -243,11 +293,36 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RateTables">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.RateTable">
+              <MappingFragment StoreEntitySet="RateTable">
+                <ScalarProperty Name="RatePerHour" ColumnName="RatePerHour" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="RateID" ColumnName="RateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatternTables">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.PatternTable">
+              <MappingFragment StoreEntitySet="PatternTable">
+                <ScalarProperty Name="ClockOutTime" ColumnName="ClockOutTime" />
+                <ScalarProperty Name="ClockInTime" ColumnName="ClockInTime" />
+                <ScalarProperty Name="HoursWorked" ColumnName="HoursWorked" />
+                <ScalarProperty Name="WorkShift" ColumnName="WorkShift" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="PatternID" ColumnName="PatternID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ClientDetails">
             <EntityTypeMapping TypeName="PayrolSystemDBModel.ClientDetail">
               <MappingFragment StoreEntitySet="ClientDetails">
                 <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="AuthorityViewRoster" ColumnName="AuthorityViewRoster" />
+                <ScalarProperty Name="AuthorityAddGuards" ColumnName="AuthorityAddGuards" />
+                <ScalarProperty Name="AuthorityToCreateSchedule" ColumnName="AuthorityToCreateSchedule" />
                 <ScalarProperty Name="LogPassword" ColumnName="LogPassword" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="CellNo" ColumnName="CellNo" />
@@ -265,6 +340,8 @@
             <EntityTypeMapping TypeName="PayrolSystemDBModel.CompanyDetail">
               <MappingFragment StoreEntitySet="CompanyDetails">
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="EndDay" ColumnName="EndDay" />
+                <ScalarProperty Name="StartDay" ColumnName="StartDay" />
                 <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
                 <ScalarProperty Name="Level" ColumnName="Level" />
                 <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
@@ -277,6 +354,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="GuardsDetails">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.GuardsDetail">
+              <MappingFragment StoreEntitySet="GuardsDetails">
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CellNo" ColumnName="CellNo" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PersNo" ColumnName="PersNo" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="GuardsID" ColumnName="GuardsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="PaymentRecords">
             <EntityTypeMapping TypeName="PayrolSystemDBModel.PaymentRecord">
               <MappingFragment StoreEntitySet="PaymentRecord">
@@ -286,16 +381,6 @@
                 <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RateTables">
-            <EntityTypeMapping TypeName="PayrolSystemDBModel.RateTable">
-              <MappingFragment StoreEntitySet="RateTable">
-                <ScalarProperty Name="RatePerHour" ColumnName="RatePerHour" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="RateID" ColumnName="RateID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -316,24 +401,14 @@
           <EntitySetMapping Name="SiteTables">
             <EntityTypeMapping TypeName="PayrolSystemDBModel.SiteTable">
               <MappingFragment StoreEntitySet="SiteTable">
-                <ScalarProperty Name="Requirement" ColumnName="Requirement" />
+                <ScalarProperty Name="GuardsPerShift" ColumnName="GuardsPerShift" />
+                <ScalarProperty Name="ShiftsRequired" ColumnName="ShiftsRequired" />
+                <ScalarProperty Name="TempPeriodMonths" ColumnName="TempPeriodMonths" />
                 <ScalarProperty Name="Period" ColumnName="Period" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="SiteName" ColumnName="SiteName" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="SiteID" ColumnName="SiteID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PatternTables">
-            <EntityTypeMapping TypeName="PayrolSystemDBModel.PatternTable">
-              <MappingFragment StoreEntitySet="PatternTable">
-                <ScalarProperty Name="ClockOutTime" ColumnName="ClockOutTime" />
-                <ScalarProperty Name="ClockInTime" ColumnName="ClockInTime" />
-                <ScalarProperty Name="HoursWorked" ColumnName="HoursWorked" />
-                <ScalarProperty Name="WorkShift" ColumnName="WorkShift" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="PatternID" ColumnName="PatternID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

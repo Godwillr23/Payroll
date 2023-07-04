@@ -128,6 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClientAccountController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\GuardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PatternController.cs" />
     <Compile Include="Controllers\RateController.cs" />
@@ -200,6 +201,8 @@
     <Content Include="Views\Pattern\Edit.cshtml" />
     <Content Include="Views\Pattern\Delete.cshtml" />
     <Content Include="Views\Schedule\CreateSchedule.cshtml" />
+    <Content Include="Views\Guard\Index.cshtml" />
+    <Content Include="Views\Guard\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

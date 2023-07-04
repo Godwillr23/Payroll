@@ -168,6 +168,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContextModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\DatabaseFirst\GuardsDetail.cs">
+      <DependentUpon>ContextModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DatabaseFirst\MasterLogin.cs">
       <DependentUpon>ContextModel.tt</DependentUpon>
     </Compile>

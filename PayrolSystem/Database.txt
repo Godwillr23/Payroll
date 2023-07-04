@@ -27,6 +27,9 @@ CREATE TABLE ClientDetails
 	CellNo varchar(15) NULL,
 	Email varchar(50) NULL,
 	LogPassword varchar(200) NOT NULL,
+	AuthorityToCreateSchedule bit NOT NULL,
+	AuthorityAddGuards bit NOT NULL,
+	AuthorityViewRoster bit NOT NULL,
 	DateCreated varchar(50) NULL,
 	ActiveStatus varchar(15) NOT NULL
 )
@@ -41,6 +44,8 @@ CREATE TABLE CompanyDetails (
 	PaymentStatus varchar(30) NOT NULL,
 	Level int NOT NULL,
 	ActiveStatus varchar(15) NOT NULL,
+	StartDay varchar(30) NULL,
+	EndDay varchar(30) NULL,
 	DateCreated varchar(50) NOT NULL
 )
 
@@ -66,7 +71,9 @@ CREATE TABLE SiteTable (
 	SiteName varchar(50) NULL,
 	Location varchar(30) NULL,
 	Period varchar(50) NOT NULL,
-	Requirement varchar(100) NOT NULL
+	TempPeriodMonths varchar(50) NULL,
+	ShiftsRequired varchar(50) NOT NULL,
+	GuardsPerShift varchar(50) NOT NULL
 )
 
 CREATE TABLE PatternTable (
@@ -89,17 +96,34 @@ CREATE TABLE ScheduleTable (
 	Availability varchar(30) NULL
 )
 
+CREATE TABLE GuardsDetails
+(
+	GuardsID int primary key IDENTITY(1,1) NOT NULL,
+	CompanyID int NOT NULL,
+	PersNo varchar(30) NOT NULL,
+	UserID int NOT NULL,
+	FirstName varchar(30) NOT NULL,
+	LastName varchar(30) NOT NULL,
+	Gender varchar(10) NULL,
+	CellNo varchar(15) NULL,
+	Email varchar(50) NULL,
+	Grade varchar(0) NOT NULL,
+	DateCreated varchar(50) NULL,
+	ActiveStatus varchar(15) NOT NULL
+)
 
-//Under Site
+
+//Under Site - DONE
 - add number of shifts required
 - number guards per shift
 
-//Periods
+//Periods - DONE
 Permanent or Temp
 if Temp specify number of months
 
 //Rates
-- Add Rates before employees, populate employee titles from from added rates job titles
+- Add Rates before employees - DONE
+- populate employee titles from from added rates job titles
 
 Create Schedule
 
