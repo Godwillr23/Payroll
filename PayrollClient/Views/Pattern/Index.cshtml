@@ -44,7 +44,7 @@
 </style>
 
 <div class="jumbotron">
-    <h2 style="margin-top: 0;">Shifts</h2>
+    <h2 style="margin-top: 0;">Patterns</h2>
     @if (Model.Count() > 0)
     {
         <div style="overflow:auto;">
@@ -81,14 +81,14 @@
     @if (Model.Count() < 1)
     {
         <div class="alert alert-danger">
-            <p style="text-align:center; color:red; font-size:14px;">No Shift found</p>
+            <p style="text-align:center; color:red; font-size:14px;">No Pattern found</p>
         </div>
     }
     <br />
-    <span class="alert alert-info">Total Shifts: @Model.Count()</span>
+    <span class="alert alert-info">Total Patterns: @Model.Count()</span>
     <br />
 
-    <button style="float:right" class="btn btn-primary" type="button" onclick="redirect()">Create Shift</button>
+    <button style="float:right" class="btn btn-primary" type="button" onclick="redirect()">Create Pattern</button>
 </div>
 
 <script>

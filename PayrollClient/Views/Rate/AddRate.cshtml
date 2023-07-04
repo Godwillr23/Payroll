@@ -19,13 +19,7 @@
             <div class="col-md-10">
                 <label>Job Title:</label>
                 <br />
-                @Html.DropDownListFor(x => x.JobTitle, new SelectListItem[]{
-                 new SelectListItem() {Text = "-Select Job Title-", Value= ""},
-                 new SelectListItem() {Text = "HR", Value= "HR"},
-                 new SelectListItem() {Text = "Security Guard", Value= "Security Guard"},
-                 new SelectListItem() {Text = "Site Manager", Value= "Site Manager"},
-                 new SelectListItem() {Text = "Other", Value= "Other"}
-                }, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.JobTitle, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.JobTitle, "", new { @class = "text-danger" })
             </div>
         </div>

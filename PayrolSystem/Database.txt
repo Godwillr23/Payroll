@@ -88,3 +88,29 @@ CREATE TABLE ScheduleTable (
 	ScheduledDay varchar(30) NULL,
 	Availability varchar(30) NULL
 )
+
+
+//Under Site
+- add number of shifts required
+- number guards per shift
+
+//Periods
+Permanent or Temp
+if Temp specify number of months
+
+//Rates
+- Add Rates before employees, populate employee titles from from added rates job titles
+
+Create Schedule
+
+Company Details - Add drodown for payment.
+- Add 'from' and to 'Date'.
+
+
+Users Capturing Data
+
+
+Users Role
+- Create Schedule
+- Update Profile
+- Roster

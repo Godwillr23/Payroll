@@ -5,7 +5,7 @@
 }
 
 <div class="jumbotron jumb-app">
-    <h2 style="margin-top: 0;">Add Client <span class="fa fa-shopping-cart"></span></h2>
+    <h2 style="margin-top: 0;">Create Schedule <span class="fa fa-shopping-cart"></span></h2>
     @using (Html.BeginForm("CreateSchedule", "Schedule", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
@@ -17,21 +17,21 @@
         }
         <div class="form-group">
             <div class="col-md-10">
-                <label>Sites:</label>
+                <label>Site:</label>
                 <br />
                 @Html.DropDownListFor(m => m.SiteID, ViewData["Sites"] as List<SelectListItem>, "-Select Site-", new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                <label>Employees:</label>
+                <label>Employee:</label>
                 <br />
                 @Html.DropDownListFor(m => m.EmployeeID, ViewData["Employees"] as List<SelectListItem>, "-Select Employee-", new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                <label>Shifts:</label>
+                <label>Shift:</label>
                 <br />
                 @Html.DropDownListFor(m => m.ShiftID, ViewData["Shifts"] as List<SelectListItem>, "-Select Shift-", new { @class = "form-control" })
             </div>

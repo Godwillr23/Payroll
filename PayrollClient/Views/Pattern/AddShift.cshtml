@@ -1,11 +1,11 @@
 ﻿@model PayrolSystem.Models.DatabaseFirst.PatternTable
 
 @{
-    ViewBag.Title = "Create Shift";
+    ViewBag.Title = "Create Pattern";
 }
 
 <div class="jumbotron jumb-app">
-    <h2 style="margin-top: 0;">Add Client <span class="fa fa-shopping-cart"></span></h2>
+    <h2 style="margin-top: 0;">Create Pattern <span class="fa fa-shopping-cart"></span></h2>
     @using (Html.BeginForm("AddShift", "Pattern", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
