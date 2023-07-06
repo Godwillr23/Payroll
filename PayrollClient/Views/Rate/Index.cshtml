@@ -60,7 +60,7 @@
                 <thead style="background-color:midnightblue; color:#fff;">
                     <tr>
                         <td><b>Rate ID</b></td>
-                        <td><b>Job Title</b></td>
+                        <td><b>Grade</b></td>
                         <td><b>Rate(per hour)</b></td>
                         <td class="DeleteRow"><b></b></td>
                     </tr>
@@ -69,7 +69,7 @@
                 {
                     <tr>
                         <td>@prod.RateID</td>
-                        <td>@prod.JobTitle</td>
+                        <td>@prod.Grade</td>
                         <td>@prod.RatePerHour</td>
                         <td class="DeleteRow">
                             <span class="btn btn-info"> @Html.ActionLink("Edit", "Edit", new { id = prod.RateID })</span> |

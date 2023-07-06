@@ -40,7 +40,7 @@ namespace PayrollClient.Controllers
 
             if (!string.IsNullOrWhiteSpace(q))
             {
-                user = user.Where(s => s.RatePerHour.Contains(q) || s.JobTitle.Contains(q));
+                user = user.Where(s => s.RatePerHour.Contains(q) || s.Grade.Contains(q));
             }
             else
             {
@@ -71,7 +71,7 @@ namespace PayrollClient.Controllers
             if (ModelState.IsValid)
             {
                 model.CompanyID = Convert.ToInt32(companyId);
-                var rateExist = IsRateExist(model.JobTitle, model.RatePerHour, model.CompanyID);
+                var rateExist = IsRateExist(model.Grade, model.RatePerHour, model.CompanyID);
 
                 if (rateExist)
                 {
@@ -135,7 +135,7 @@ namespace PayrollClient.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var rateToUpdate = _context.RateTables.Find(id);
-            if (TryUpdateModel(rateToUpdate, "", new string[] { "RateID", "JobTitle", "RatePerHour" }))
+            if (TryUpdateModel(rateToUpdate, "", new string[] { "RateID", "Grade", "RatePerHour" }))
             {
                 try
                 {
@@ -180,11 +180,11 @@ namespace PayrollClient.Controllers
             return RedirectToAction("Index");
         }
 
-        public bool IsRateExist(string title, string rate, int companyId)
+        public bool IsRateExist(string Grade, string rate, int companyId)
         {
             using (PayrolSystemDBEntities dc = new PayrolSystemDBEntities())
             {
-                var v = dc.RateTables.Where(a => a.JobTitle == title && a.RatePerHour == rate && a.CompanyID == companyId).FirstOrDefault();
+                var v = dc.RateTables.Where(a => a.Grade == Grade && a.RatePerHour == rate && a.CompanyID == companyId).FirstOrDefault();
                 return v != null;
             }
         }

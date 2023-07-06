@@ -61,7 +61,6 @@ namespace PayrollClient.Controllers
             int CompId = Convert.ToInt32(companyId);
 
             Session["employeeSuccess"] = null;
-            ViewBag.JobTitle = GetTitle(CompId);
             return View();
         }
 
@@ -110,7 +109,6 @@ namespace PayrollClient.Controllers
                 {
                     _context.SaveChanges();
                     Session["employeeSuccess"] = "Employee Added!";
-                    ViewBag.JobTitle = GetTitle(CompId);
                     return RedirectToAction("Index", "Employee");
 
                 }
@@ -230,20 +228,6 @@ namespace PayrollClient.Controllers
                 var v = dc.ClientDetails.Where(a => a.CellNo == cell).FirstOrDefault();
                 return v != null;
             }
-        }
-        private static List<SelectListItem> GetTitle(int companyId)
-        {
-            // Create db context object here
-            PayrolSystemDBEntities dbContext = new PayrolSystemDBEntities();
-            //Get the value from database and then set it to ViewBag to pass it View
-            List<SelectListItem> shift = dbContext.RateTables.OrderBy(x => x.JobTitle).Where(a => a.CompanyID == companyId).Select(c => new SelectListItem
-            {
-                Value = c.JobTitle,
-                Text = c.JobTitle
-
-            }).ToList();
-
-            return shift;
         }
     }
 }

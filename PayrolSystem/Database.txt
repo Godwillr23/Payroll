@@ -61,7 +61,7 @@ CREATE TABLE PaymentRecord (
 CREATE TABLE RateTable (
     RateID int primary key IDENTITY(1,1) NOT NULL,
 	CompanyID int NOT NULL,
-	JobTitle varchar(50) NOT NULL,
+	Grade varchar(10) NOT NULL,
 	RatePerHour varchar(20) NOT NULL
 )
 
@@ -107,7 +107,7 @@ CREATE TABLE GuardsDetails
 	Gender varchar(10) NULL,
 	CellNo varchar(15) NULL,
 	Email varchar(50) NULL,
-	Grade varchar(0) NOT NULL,
+	Grade varchar(10) NOT NULL,
 	DateCreated varchar(50) NULL,
 	ActiveStatus varchar(15) NOT NULL
 )

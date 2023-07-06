@@ -16,7 +16,7 @@ namespace PayrolSystem.Models.DatabaseFirst
     {
         public int RateID { get; set; }
         public int CompanyID { get; set; }
-        public string JobTitle { get; set; }
+        public string Grade { get; set; }
         public string RatePerHour { get; set; }
     }
 }

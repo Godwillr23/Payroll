@@ -16,6 +16,19 @@ namespace PayrollClient.Controllers
     {
         // GET: Schedule
         PayrolSystemDBEntities _context = new PayrolSystemDBEntities();
+        public ActionResult Index()
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            string companyId = Session["CompanyID"].ToString();
+            int CompId = Convert.ToInt32(companyId);
+
+            var clients = _context.ScheduleTables.Where(a => a.CompanyID == CompId).ToList();
+            return View(clients);
+        }
         public ActionResult CreateSchedule()
         {
             if (Session["UserId"] == null)

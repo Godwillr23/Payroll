@@ -126,6 +126,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ActualController.cs" />
     <Compile Include="Controllers\ClientAccountController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\GuardController.cs" />
@@ -203,12 +204,17 @@
     <Content Include="Views\Schedule\CreateSchedule.cshtml" />
     <Content Include="Views\Guard\Index.cshtml" />
     <Content Include="Views\Guard\Search.cshtml" />
+    <Content Include="Views\Guard\AddGuard.cshtml" />
+    <Content Include="Views\Guard\Edit.cshtml" />
+    <Content Include="Views\Guard\Delete.cshtml" />
+    <Content Include="Views\Roster\Index.cshtml" />
+    <Content Include="Views\Actual\Index.cshtml" />
+    <Content Include="Views\Schedule\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Report\" />
-    <Folder Include="Views\Roster\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

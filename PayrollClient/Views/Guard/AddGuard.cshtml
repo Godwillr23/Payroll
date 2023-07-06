@@ -1,37 +1,20 @@
-﻿@model PayrolSystem.Models.DatabaseFirst.ClientDetail
+﻿@model PayrolSystem.Models.DatabaseFirst.GuardsDetail
 
 @{
-    ViewBag.Title = "Add Employee";
+    ViewBag.Title = "Add Guard";
 }
 
 <div class="jumbotron jumb-app">
     <h2 style="margin-top: 0;">Add Employee <span class="fa fa-shopping-cart"></span></h2>
-    @using (Html.BeginForm("AddEmployee", "Employee", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("AddGuard", "Guard", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
         <hr />
         <p style="color:red; text-align:center; font-size:12px;">@Html.ValidationMessage("Error")</p>
-        if (Session["employeeSuccess"] != null)
+        if (Session["guardSuccess"] != null)
         {
-            <p class="alert alert-success">@Session["employeeSuccess"].ToString()</p>
+            <p class="alert alert-success">@Session["guardSuccess"].ToString()</p>
         }
-            <div class="form-group">
-                <div class="col-md-10">
-                    @Html.LabelFor(m => m.JobTitle):
-                    <br />
-                    @Html.DropDownListFor(x => x.JobTitle, new SelectListItem[]{
-                     new SelectListItem() {Text = "-Select JobTitle-", Value= ""},
-                     new SelectListItem() {Text = "HR", Value= "HR"},
-                     new SelectListItem() {Text = "Supervisor", Value= "Female"},
-                     new SelectListItem() {Text = "Site Manager", Value= "Site Manager"},
-                     new SelectListItem() {Text = "Secretary", Value= "Secretary"},
-                     new SelectListItem() {Text = "Data Capturer", Value= "Data Capturer"},
-                     new SelectListItem() {Text = "Office Admin", Value= "Office Admin"},
-                     new SelectListItem() {Text = "Other", Value= "Other"}
-                    }, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.JobTitle, "", new { @class = "text-danger" })
-                </div>
-            </div>
         <div class="form-group">
             <div class="col-md-10">
                 @Html.LabelFor(m => m.FirstName):
@@ -78,10 +61,10 @@
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                @Html.LabelFor(m => m.LogPassword):
+                <label>Grade:</label>
                 <br />
-                @Html.PasswordFor(m => m.LogPassword, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.LogPassword, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(m => m.Grade, ViewData["Grade"] as List<SelectListItem>, "-Select Grade-", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Grade, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">

@@ -58,9 +58,8 @@ namespace PayrollClient.Controllers
             }
             string companyId = Session["CompanyID"].ToString();
             int CompId = Convert.ToInt32(companyId);
-
+            ViewBag.Grade = GetGrade(CompId);
             Session["guardSuccess"] = null;
-            ViewBag.JobTitle = GetTitle(CompId);
             return View();
         }
 
@@ -75,17 +74,27 @@ namespace PayrollClient.Controllers
             string companyId = Session["CompanyID"].ToString();
             int CompId = Convert.ToInt32(companyId);
 
-            var lastId = _context.GuardsDetails.Find(_context.GuardsDetails.Max(p => p.GuardsID));
-            int convertedlasstID = Convert.ToInt32(lastId);
+            //Get last ID
+            int lstID = getLastId();
+            int convertedlasstID = 0;
+            if (lstID == 0)
+            {
+                convertedlasstID = 0;
+            }
+            else
+            {
+                convertedlasstID = lstID;
+            }
 
             if (ModelState.IsValid)
             {
                 //model.CompanyID = userid;
                 model.DateCreated = DateTime.Now.Date.ToShortDateString();
-                model.PersNo = model.FirstName.Substring(0,1) + model.LastName.Substring(0, 1) + 
-                    model.Grade + model.CompanyID + "PP"+ convertedlasstID;
+                model.PersNo = model.FirstName.Substring(0, 1) + model.LastName.Substring(0, 1) +
+                    model.Grade + model.CompanyID + "PP" + (convertedlasstID + 1);
                 model.ActiveStatus = "True";
                 model.CompanyID = CompId;
+                model.UserID = userid;
 
                 var ClientExist = IsClientsExist(model.FirstName, model.LastName, model.CompanyID);
                 var EmailExist = IsEmailExist(model.Email);
@@ -112,6 +121,7 @@ namespace PayrollClient.Controllers
                 try
                 {
                     _context.SaveChanges();
+                    ViewBag.Grade = GetGrade(CompId);
                     Session["guardSuccess"] = "Guard Added!";
                     return RedirectToAction("Index", "Guard");
                 }
@@ -128,7 +138,6 @@ namespace PayrollClient.Controllers
                     }
                     throw;
                 }
-
             }
             else
             {
@@ -144,12 +153,13 @@ namespace PayrollClient.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ClientDetail user = _context.ClientDetails.Find(id);
-            if (user == null)
+            GuardsDetail guard = _context.GuardsDetails.Find(id);
+            if (guard == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+
+            return View(guard);
         }
 
         [HttpPost, ActionName("Edit")]
@@ -161,8 +171,8 @@ namespace PayrollClient.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var userToUpdate = _context.ClientDetails.Find(id);
-            if (TryUpdateModel(userToUpdate, "", new string[] { "ClientID", "JobTitle", "FirstName", "LastName", "CellNo", "Email", "ActiveStatus" }))
+            var userToUpdate = _context.GuardsDetails.Find(id);
+            if (TryUpdateModel(userToUpdate, "", new string[] { "GuardID", "FirstName", "LastName", "CellNo", "Email","Grade", "ActiveStatus" }))
             {
                 try
                 {
@@ -187,7 +197,7 @@ namespace PayrollClient.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ClientDetail user = _context.ClientDetails.Find(id);
+            GuardsDetail user = _context.GuardsDetails.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -201,8 +211,8 @@ namespace PayrollClient.Controllers
         [AllowAnonymous]
         public ActionResult DeleteConfirmed(int id)
         {
-            ClientDetail user = _context.ClientDetails.Find(id);
-            _context.ClientDetails.Remove(user);
+            GuardsDetail user = _context.GuardsDetails.Find(id);
+            _context.GuardsDetails.Remove(user);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -211,7 +221,7 @@ namespace PayrollClient.Controllers
         {
             using (PayrolSystemDBEntities dc = new PayrolSystemDBEntities())
             {
-                var v = dc.ClientDetails.Where(a => a.CompanyID == companyId && a.FirstName == name && a.LastName == surname).FirstOrDefault();
+                var v = dc.GuardsDetails.Where(a => a.CompanyID == companyId && a.FirstName == name && a.LastName == surname).FirstOrDefault();
                 return v != null;
             }
         }
@@ -220,7 +230,7 @@ namespace PayrollClient.Controllers
         {
             using (PayrolSystemDBEntities dc = new PayrolSystemDBEntities())
             {
-                var v = dc.ClientDetails.Where(a => a.Email == email).FirstOrDefault();
+                var v = dc.GuardsDetails.Where(a => a.Email == email).FirstOrDefault();
                 return v != null;
             }
         }
@@ -228,19 +238,26 @@ namespace PayrollClient.Controllers
         {
             using (PayrolSystemDBEntities dc = new PayrolSystemDBEntities())
             {
-                var v = dc.ClientDetails.Where(a => a.CellNo == cell).FirstOrDefault();
+                var v = dc.GuardsDetails.Where(a => a.CellNo == cell).FirstOrDefault();
                 return v != null;
             }
         }
-        private static List<SelectListItem> GetTitle(int companyId)
+
+        public int getLastId()
+        {
+            int v = _context.GuardsDetails.Count();
+            return v;
+        }
+
+        private static List<SelectListItem> GetGrade(int companyId)
         {
             // Create db context object here
             PayrolSystemDBEntities dbContext = new PayrolSystemDBEntities();
             //Get the value from database and then set it to ViewBag to pass it View
-            List<SelectListItem> shift = dbContext.RateTables.OrderBy(x => x.JobTitle).Where(a => a.CompanyID == companyId).Select(c => new SelectListItem
+            List<SelectListItem> shift = dbContext.RateTables.OrderBy(x => x.Grade).Where(a => a.CompanyID == companyId).Select(c => new SelectListItem
             {
-                Value = c.JobTitle,
-                Text = c.JobTitle
+                Value = c.Grade,
+                Text = c.Grade
 
             }).ToList();
 

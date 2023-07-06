@@ -26,7 +26,6 @@ namespace PayrolSystem.Models.DatabaseFirst
         }
     
         public virtual DbSet<MasterLogin> MasterLogins { get; set; }
-        public virtual DbSet<RateTable> RateTables { get; set; }
         public virtual DbSet<PatternTable> PatternTables { get; set; }
         public virtual DbSet<ClientDetail> ClientDetails { get; set; }
         public virtual DbSet<CompanyDetail> CompanyDetails { get; set; }
@@ -34,5 +33,6 @@ namespace PayrolSystem.Models.DatabaseFirst
         public virtual DbSet<PaymentRecord> PaymentRecords { get; set; }
         public virtual DbSet<ScheduleTable> ScheduleTables { get; set; }
         public virtual DbSet<SiteTable> SiteTables { get; set; }
+        public virtual DbSet<RateTable> RateTables { get; set; }
     }
 }
