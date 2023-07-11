@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -20,6 +21,20 @@ namespace PayrollClient.Controllers
         // GET: Schedule
         PayrolSystemDBEntities _context = new PayrolSystemDBEntities();
 
+        public class Event
+        {
+            public int id { get; set; }
+            public string text { get; set; }
+            public DateTime start_date { get; set; }
+            public DateTime end_date { get; set; }
+        }
+
+        public partial class SchedulerContext : DbContext
+        {
+            public SchedulerContext() : base("name=PayrolSystemDBEntities") { }
+            public virtual DbSet<Event> Events { get; set; }
+        }
+
         public ActionResult Index()
         {
             if (Session["UserId"] == null)
@@ -31,40 +46,40 @@ namespace PayrollClient.Controllers
             sched.Skin = DHXScheduler.Skins.Terrace;
             sched.LoadData = true;
             sched.EnableDataprocessor = true;
-            sched.InitialDate = new DateTime(2023, 5, 5);
+            sched.InitialDate = new DateTime(2023, 7, 11);
             return View(sched);
         }
         public ContentResult Data()
         {
             return (new SchedulerAjaxData(
-                new PayrolSystemDBEntities().ScheduleTables
-                .Select(e => new { e.ScheduleID, e.EmployeeID, e.ScheduledDate, e.ShiftID, e.SiteID })
+                new SchedulerContext().Events
+                .Select(e => new { e.id, e.text, e.start_date, e.end_date })
                 )
                 );
         }
         public ContentResult Save(int? id, FormCollection actionValues)
         {
             var action = new DataAction(actionValues);
-            var changedEvent = DHXEventsHelper.Bind<ScheduleTable>(actionValues);
-            var entities = new PayrolSystemDBEntities();
+            var changedEvent = DHXEventsHelper.Bind<Event>(actionValues);
+            var entities = new SchedulerContext();
             try
             {
                 switch (action.Type)
                 {
                     case DataActionTypes.Insert:
-                        entities.ScheduleTables.Add(changedEvent);
+                        entities.Events.Add(changedEvent);
                         break;
                     case DataActionTypes.Delete:
-                        changedEvent = entities.ScheduleTables.FirstOrDefault(ev => ev.ScheduleID == action.SourceId);
-                        entities.ScheduleTables.Remove(changedEvent);
+                        changedEvent = entities.Events.FirstOrDefault(ev => ev.id == action.SourceId);
+                        entities.Events.Remove(changedEvent);
                         break;
                     default:// "update"
-                        var target = entities.ScheduleTables.Single(e => e.ScheduleID == changedEvent.ScheduleID);
+                        var target = entities.Events.Single(e => e.id == changedEvent.id);
                         DHXEventsHelper.Update(target, changedEvent, new List<string> { "id" });
                         break;
                 }
                 entities.SaveChanges();
-                action.TargetId = changedEvent.ScheduleID;
+                action.TargetId = changedEvent.id;
             }
             catch (Exception a)
             {
@@ -72,8 +87,9 @@ namespace PayrollClient.Controllers
             }
 
             return (new AjaxSaveResponse(action));
+
         }
-        public ActionResult CreateSchedule()
+    public ActionResult CreateSchedule()
         {
             if (Session["UserId"] == null)
             {
