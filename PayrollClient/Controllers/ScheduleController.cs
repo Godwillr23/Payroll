@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
+using DHTMLX.Common;
+using DHTMLX.Scheduler;
+using DHTMLX.Scheduler.Data;
 using PayrolSystem.Models.DatabaseFirst;
 
 namespace PayrollClient.Controllers
@@ -16,6 +19,7 @@ namespace PayrollClient.Controllers
     {
         // GET: Schedule
         PayrolSystemDBEntities _context = new PayrolSystemDBEntities();
+
         public ActionResult Index()
         {
             if (Session["UserId"] == null)
@@ -23,11 +27,51 @@ namespace PayrollClient.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            string companyId = Session["CompanyID"].ToString();
-            int CompId = Convert.ToInt32(companyId);
+            var sched = new DHXScheduler(this);
+            sched.Skin = DHXScheduler.Skins.Terrace;
+            sched.LoadData = true;
+            sched.EnableDataprocessor = true;
+            sched.InitialDate = new DateTime(2023, 5, 5);
+            return View(sched);
+        }
+        public ContentResult Data()
+        {
+            return (new SchedulerAjaxData(
+                new PayrolSystemDBEntities().ScheduleTables
+                .Select(e => new { e.ScheduleID, e.EmployeeID, e.ScheduledDate, e.ShiftID, e.SiteID })
+                )
+                );
+        }
+        public ContentResult Save(int? id, FormCollection actionValues)
+        {
+            var action = new DataAction(actionValues);
+            var changedEvent = DHXEventsHelper.Bind<ScheduleTable>(actionValues);
+            var entities = new PayrolSystemDBEntities();
+            try
+            {
+                switch (action.Type)
+                {
+                    case DataActionTypes.Insert:
+                        entities.ScheduleTables.Add(changedEvent);
+                        break;
+                    case DataActionTypes.Delete:
+                        changedEvent = entities.ScheduleTables.FirstOrDefault(ev => ev.ScheduleID == action.SourceId);
+                        entities.ScheduleTables.Remove(changedEvent);
+                        break;
+                    default:// "update"
+                        var target = entities.ScheduleTables.Single(e => e.ScheduleID == changedEvent.ScheduleID);
+                        DHXEventsHelper.Update(target, changedEvent, new List<string> { "id" });
+                        break;
+                }
+                entities.SaveChanges();
+                action.TargetId = changedEvent.ScheduleID;
+            }
+            catch (Exception a)
+            {
+                action.Type = DataActionTypes.Error;
+            }
 
-            var clients = _context.ScheduleTables.Where(a => a.CompanyID == CompId).ToList();
-            return View(clients);
+            return (new AjaxSaveResponse(action));
         }
         public ActionResult CreateSchedule()
         {
