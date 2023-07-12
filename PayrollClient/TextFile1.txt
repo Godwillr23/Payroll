@@ -10,3 +10,6 @@
 7. Exporting to Excell and PDF
 
 ClientAccountController
+
+
+https://scheduler-net.com/docs/tutorialsentity-framework-database-first.html

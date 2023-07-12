@@ -29,39 +29,44 @@
                 @Html.DropDownListFor(m => m.GuardID, ViewData["Guard"] as List<SelectListItem>, "-Select Guard-", new { @class = "form-control" })
             </div>
         </div>
+        @*<div class="form-group">
+                <div class="col-md-10">
+                    <label>Shift:</label>
+                    <br />
+                    @Html.DropDownListFor(m => m.ShiftID, ViewData["Shifts"] as List<SelectListItem>, "-Select Shift-", new { @class = "form-control" })
+                </div>
+            </div>*@
         <div class="form-group">
             <div class="col-md-10">
-                <label>Shift:</label>
+                <label>Start Date and Time:</label>
                 <br />
-                @Html.DropDownListFor(m => m.ShiftID, ViewData["Shifts"] as List<SelectListItem>, "-Select Shift-", new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.start_date, new { @class = "form-control", type = "datetime-local", id = "ScheduledDate" })
+                @Html.ValidationMessageFor(m => m.start_date, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                @Html.LabelFor(m => m.ScheduledDate):
+                <label>End Date and Time:</label>)
                 <br />
-                @Html.TextBoxFor(m => m.ScheduledDate, new { @class = "form-control", onchange = "getDay()", type = "date", id = "ScheduledDate" })
-                @Html.ValidationMessageFor(m => m.ScheduledDate, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(m => m.end_date, new { @class = "form-control", type = "datetime-local", id = "ScheduledDate" })
+                @Html.ValidationMessageFor(m => m.end_date, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                @Html.LabelFor(m => m.ScheduledDay):
+                <label>No of Shifts:</label>
                 <br />
-                @Html.TextBoxFor(m => m.ScheduledDay, new { @class = "form-control", @readonly = "readonly", id = "ScheduledDay" })
-                @Html.ValidationMessageFor(m => m.ScheduledDay, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.LabelFor(m => m.Availability):
-                <br />
-                @Html.DropDownListFor(x => x.Availability, new SelectListItem[]{
-                 new SelectListItem() {Text = "-Select Availability-", Value= ""},
-                 new SelectListItem() {Text = "Available", Value= "Available"},
-                 new SelectListItem() {Text = "Not Available", Value= "Not Available"}
+                @Html.DropDownListFor(x => x.noDays, new SelectListItem[]{
+                 new SelectListItem() {Text = "-Select Start Day-", Value= ""},
+                 new SelectListItem() {Text = "1", Value= "1"},
+                 new SelectListItem() {Text = "2", Value= "2"},
+                 new SelectListItem() {Text = "3", Value= "3"},
+                 new SelectListItem() {Text = "4", Value= "4"},
+                 new SelectListItem() {Text = "5", Value= "5"},
+                 new SelectListItem() {Text = "6", Value= "6"},
+                 new SelectListItem() {Text = "7", Value= "7"},
                 }, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Availability, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.noDays, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
@@ -72,12 +77,12 @@
     }
 </div>
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     function getDay() {
         var date = new Date(document.getElementById("ScheduledDate").value);
         document.getElementById("ScheduledDay").value = date.toString().substring(0, 3);
     }
-</script>
+</script>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

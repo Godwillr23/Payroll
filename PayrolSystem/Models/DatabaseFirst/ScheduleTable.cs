@@ -14,14 +14,19 @@ namespace PayrolSystem.Models.DatabaseFirst
     
     public partial class ScheduleTable
     {
-        public int ScheduleID { get; set; }
+        public int id { get; set; }
         public int CompanyID { get; set; }
         public int SiteID { get; set; }
         public int EmployeeID { get; set; }
         public int GuardID { get; set; }
         public int ShiftID { get; set; }
-        public string ScheduledDate { get; set; }
-        public string ScheduledDay { get; set; }
+        public string text { get; set; }
+        public Nullable<System.DateTime> start_date { get; set; }
+        public Nullable<System.DateTime> end_date { get; set; }
+        public Nullable<int> ScheduleMonth { get; set; }
+        public Nullable<bool> IsHoliday { get; set; }
+        public Nullable<bool> IsSunday { get; set; }
         public string Availability { get; set; }
+        public int noDays { get; set; }
     }
 }

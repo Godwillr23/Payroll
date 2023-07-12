@@ -103,16 +103,20 @@
         </EntityType>
         <EntityType Name="ScheduleTable">
           <Key>
-            <PropertyRef Name="ScheduleID" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="ScheduleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="SiteID" Type="int" Nullable="false" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
           <Property Name="GuardID" Type="int" Nullable="false" />
           <Property Name="ShiftID" Type="int" Nullable="false" />
-          <Property Name="ScheduledDate" Type="varchar" MaxLength="30" />
-          <Property Name="ScheduledDay" Type="varchar" MaxLength="30" />
+          <Property Name="text" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="start_date" Type="datetime" />
+          <Property Name="end_date" Type="datetime" />
+          <Property Name="ScheduleMonth" Type="int" />
+          <Property Name="IsHoliday" Type="bit" />
+          <Property Name="IsSunday" Type="bit" />
           <Property Name="Availability" Type="varchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="SiteTable">
@@ -265,16 +269,20 @@
         </EntityType>
         <EntityType Name="ScheduleTable">
           <Key>
-            <PropertyRef Name="ScheduleID" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="ScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="SiteID" Type="Int32" Nullable="false" />
           <Property Name="EmployeeID" Type="Int32" Nullable="false" />
           <Property Name="GuardID" Type="Int32" Nullable="false" />
           <Property Name="ShiftID" Type="Int32" Nullable="false" />
-          <Property Name="ScheduledDate" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="ScheduledDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="text" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="start_date" Type="DateTime" Precision="3" />
+          <Property Name="end_date" Type="DateTime" Precision="3" />
+          <Property Name="ScheduleMonth" Type="Int32" />
+          <Property Name="IsHoliday" Type="Boolean" />
+          <Property Name="IsSunday" Type="Boolean" />
           <Property Name="Availability" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
@@ -404,14 +412,18 @@
             <EntityTypeMapping TypeName="PayrolSystemDBModel.ScheduleTable">
               <MappingFragment StoreEntitySet="ScheduleTable">
                 <ScalarProperty Name="Availability" ColumnName="Availability" />
-                <ScalarProperty Name="ScheduledDay" ColumnName="ScheduledDay" />
-                <ScalarProperty Name="ScheduledDate" ColumnName="ScheduledDate" />
+                <ScalarProperty Name="IsSunday" ColumnName="IsSunday" />
+                <ScalarProperty Name="IsHoliday" ColumnName="IsHoliday" />
+                <ScalarProperty Name="ScheduleMonth" ColumnName="ScheduleMonth" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="text" ColumnName="text" />
                 <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
                 <ScalarProperty Name="GuardID" ColumnName="GuardID" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="SiteID" ColumnName="SiteID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

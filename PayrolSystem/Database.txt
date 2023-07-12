@@ -86,13 +86,18 @@ CREATE TABLE PatternTable (
 )
 
 CREATE TABLE ScheduleTable (
-    ScheduleID int primary key IDENTITY(1,1) NOT NULL,
+    id int primary key IDENTITY(1,1) NOT NULL,
 	CompanyID int NOT NULL,
 	SiteID int NOT NULL,
 	EmployeeID int NOT NULL,
+	GuardID int NOT NULL,
 	ShiftID int NOT NULL,
-	ScheduledDate varchar(30) NULL,
-	ScheduledDay varchar(30) NULL,
+	text varchar(30) NOT NULL,
+	start_date datetime NULL,
+	end_date datetime NULL,
+	ScheduleMonth int NULL,
+	IsHoliday bit NULL,
+	IsSunday bit NULL,
 	Availability varchar(30) NULL
 )
 
