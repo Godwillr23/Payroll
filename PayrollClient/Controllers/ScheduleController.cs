@@ -26,7 +26,7 @@ namespace PayrollClient.Controllers
             string companyId = Session["CompanyID"].ToString();
             int CompId = Convert.ToInt32(companyId);
 
-            var clients = _context.ScheduleTables.Where(a => a.CompanyID == CompId).ToList();
+            var clients = _context.ScheduleTables.Where(a => a.CompanyID == CompId).GroupBy(x => x.GuardID).ToList();
             return View(clients);
         }
         public ActionResult CreateSchedule()
@@ -41,8 +41,8 @@ namespace PayrollClient.Controllers
 
             ViewBag.Shifts = GetShift(CompId);
             ViewBag.Sites = GetSites(CompId);
-            ViewBag.Employees = GetEmployee(CompId);
-            
+           // ViewBag.Employees = GetEmployee(CompId);
+            ViewBag.Guard = GetGuard(CompId);
 
             Session["ScheduleSuccess"] = null;
             return View();
@@ -56,10 +56,13 @@ namespace PayrollClient.Controllers
             string companyId = Session["CompanyID"].ToString();
             int CompId = Convert.ToInt32(companyId);
 
+            string userId = Session["UserId"].ToString();
+            int UId = Convert.ToInt32(userId);
+   
             if (ModelState.IsValid)
             {
                 model.CompanyID = Convert.ToInt32(companyId);
-                var shiftTableExist = IsScheduleExist(model.CompanyID, model.SiteID, model.EmployeeID, model.ShiftID,model.ScheduledDate);
+                var shiftTableExist = IsScheduleExist(model.CompanyID, model.SiteID, model.EmployeeID, model.GuardID, model.ShiftID,model.ScheduledDate);
 
                 if (shiftTableExist)
                 {
@@ -67,6 +70,7 @@ namespace PayrollClient.Controllers
                     return View(model);
                 }
 
+                model.EmployeeID = UId;
                 _context.ScheduleTables.Add(model);
 
                 try
@@ -74,8 +78,9 @@ namespace PayrollClient.Controllers
                     _context.SaveChanges();
 
                     ViewBag.Sites = GetSites(CompId);
-                    ViewBag.Employees = GetEmployee(CompId);
+                    //ViewBag.Employees = GetEmployee(CompId);
                     ViewBag.Shifts = GetShift(CompId);
+                    ViewBag.Guard = GetGuard(CompId);
 
                     Session["ScheduleSuccess"] = "Schedule Created!";
                     return View();
@@ -102,21 +107,21 @@ namespace PayrollClient.Controllers
                 return View();
             }
         }
-        public bool IsScheduleExist(int CompanyID, int SiteID, int EmployeeID, int ShiftID, string ScheduledDate)
+        public bool IsScheduleExist(int CompanyID, int SiteID, int EmployeeID, int GuardID, int ShiftID, string ScheduledDate)
         {
             using (PayrolSystemDBEntities dc = new PayrolSystemDBEntities())
             {
                 var v = dc.ScheduleTables.Where(a => a.CompanyID == CompanyID && 
-                a.SiteID == SiteID && a.EmployeeID == EmployeeID && a.ShiftID == ShiftID && a.ScheduledDate == ScheduledDate).FirstOrDefault();
+                a.SiteID == SiteID && a.EmployeeID == EmployeeID && a.GuardID == GuardID && a.ShiftID == ShiftID && a.ScheduledDate == ScheduledDate).FirstOrDefault();
                 return v != null;
             }
         }
-        private static List<SelectListItem> GetSites(int companyId)
+        private static List<SelectListItem> GetSites(int Id)
         {
             // Create db context object here
             PayrolSystemDBEntities dbContext = new PayrolSystemDBEntities();
             //Get the value from database and then set it to ViewBag to pass it View
-            List<SelectListItem> site = dbContext.SiteTables.OrderBy(x => x.SiteName).Where(a => a.CompanyID == companyId).Select(c => new SelectListItem
+            List<SelectListItem> site = dbContext.SiteTables.OrderBy(x => x.SiteName).Where(a => a.CompanyID == Id).Select(c => new SelectListItem
             {
                 Value = c.SiteID.ToString(),
                 Text = c.SiteName +", "+ c.Location
@@ -125,26 +130,40 @@ namespace PayrollClient.Controllers
 
             return site;
         }
-        private static List<SelectListItem> GetEmployee(int companyId)
+        //private static List<SelectListItem> GetEmployee(int Id)
+        //{
+        //    // Create db context object here
+        //    PayrolSystemDBEntities dbContext = new PayrolSystemDBEntities();
+        //    //Get the value from database and then set it to ViewBag to pass it View
+        //    List<SelectListItem> emp = dbContext.ClientDetails.OrderBy(x => x.ClientID).Where(a => a.CompanyID == Id && a.UserRole != "Admin").Select(c => new SelectListItem
+        //    {
+        //        Value = c.ClientID.ToString(),
+        //        Text = c.FirstName + " " + c.LastName
+
+        //    }).ToList();
+
+        //    return emp;
+        //}
+        private static List<SelectListItem> GetGuard(int Id)
         {
             // Create db context object here
             PayrolSystemDBEntities dbContext = new PayrolSystemDBEntities();
             //Get the value from database and then set it to ViewBag to pass it View
-            List<SelectListItem> emp = dbContext.ClientDetails.OrderBy(x => x.ClientID).Where(a => a.CompanyID == companyId && a.UserRole != "Admin").Select(c => new SelectListItem
+            List<SelectListItem> guard = dbContext.GuardsDetails.OrderBy(x => x.GuardsID).Where(a => a.CompanyID == Id).Select(c => new SelectListItem
             {
-                Value = c.ClientID.ToString(),
+                Value = c.GuardsID.ToString(),
                 Text = c.FirstName + " " + c.LastName
 
             }).ToList();
 
-            return emp;
+            return guard;
         }
-        private static List<SelectListItem> GetShift(int companyId)
+        private static List<SelectListItem> GetShift(int Id)
         {
             // Create db context object here
             PayrolSystemDBEntities dbContext = new PayrolSystemDBEntities();
             //Get the value from database and then set it to ViewBag to pass it View
-            List<SelectListItem> shift = dbContext.PatternTables.OrderBy(x => x.WorkShift).Where(a => a.CompanyID == companyId).Select(c => new SelectListItem
+            List<SelectListItem> shift = dbContext.PatternTables.OrderBy(x => x.WorkShift).Where(a => a.CompanyID == Id).Select(c => new SelectListItem
             {
                 Value = c.PatternID.ToString(),
                 Text = c.WorkShift

@@ -77,9 +77,9 @@
           <Property Name="PatternID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="WorkShift" Type="varchar" MaxLength="30" />
-          <Property Name="HoursWorked" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="ClockInTime" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="ClockOutTime" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="HoursWorked" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ClockInTime" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ClockOutTime" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="PaymentRecord">
           <Key>
@@ -109,6 +109,7 @@
           <Property Name="CompanyID" Type="int" Nullable="false" />
           <Property Name="SiteID" Type="int" Nullable="false" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="GuardID" Type="int" Nullable="false" />
           <Property Name="ShiftID" Type="int" Nullable="false" />
           <Property Name="ScheduledDate" Type="varchar" MaxLength="30" />
           <Property Name="ScheduledDay" Type="varchar" MaxLength="30" />
@@ -156,13 +157,13 @@
         <EntityContainer Name="PayrolSystemDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MasterLogins" EntityType="Self.MasterLogin" />
           <EntitySet Name="PatternTables" EntityType="PayrolSystemDBModel.PatternTable" />
-          <EntitySet Name="ClientDetails" EntityType="PayrolSystemDBModel.ClientDetail" />
-          <EntitySet Name="CompanyDetails" EntityType="PayrolSystemDBModel.CompanyDetail" />
-          <EntitySet Name="GuardsDetails" EntityType="PayrolSystemDBModel.GuardsDetail" />
           <EntitySet Name="PaymentRecords" EntityType="PayrolSystemDBModel.PaymentRecord" />
-          <EntitySet Name="ScheduleTables" EntityType="PayrolSystemDBModel.ScheduleTable" />
-          <EntitySet Name="SiteTables" EntityType="PayrolSystemDBModel.SiteTable" />
+          <EntitySet Name="ClientDetails" EntityType="PayrolSystemDBModel.ClientDetail" />
+          <EntitySet Name="GuardsDetails" EntityType="PayrolSystemDBModel.GuardsDetail" />
           <EntitySet Name="RateTables" EntityType="PayrolSystemDBModel.RateTable" />
+          <EntitySet Name="CompanyDetails" EntityType="PayrolSystemDBModel.CompanyDetail" />
+          <EntitySet Name="SiteTables" EntityType="PayrolSystemDBModel.SiteTable" />
+          <EntitySet Name="ScheduleTables" EntityType="PayrolSystemDBModel.ScheduleTable" />
         </EntityContainer>
         <EntityType Name="PatternTable">
           <Key>
@@ -171,9 +172,20 @@
           <Property Name="PatternID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
           <Property Name="WorkShift" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="HoursWorked" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ClockInTime" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="ClockOutTime" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HoursWorked" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ClockInTime" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ClockOutTime" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PaymentRecord">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentType" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentDate" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentTime" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="ClientDetail">
           <Key>
@@ -195,23 +207,6 @@
           <Property Name="DateCreated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="CompanyDetail">
-          <Key>
-            <PropertyRef Name="CompanyID" />
-          </Key>
-          <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MasterID" Type="Int32" Nullable="false" />
-          <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="CompanyAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentDay" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentStatus" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Level" Type="Int32" Nullable="false" />
-          <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="StartDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="EndDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="DateCreated" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="GuardsDetail">
           <Key>
             <PropertyRef Name="GuardsID" />
@@ -229,29 +224,31 @@
           <Property Name="DateCreated" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="PaymentRecord">
+        <EntityType Name="RateTable">
           <Key>
-            <PropertyRef Name="PaymentID" />
+            <PropertyRef Name="RateID" />
           </Key>
-          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
-          <Property Name="PaymentType" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentDate" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="PaymentTime" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Grade" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RatePerHour" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="ScheduleTable">
+        <EntityType Name="CompanyDetail">
           <Key>
-            <PropertyRef Name="ScheduleID" />
+            <PropertyRef Name="CompanyID" />
           </Key>
-          <Property Name="ScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyID" Type="Int32" Nullable="false" />
-          <Property Name="SiteID" Type="Int32" Nullable="false" />
-          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
-          <Property Name="ShiftID" Type="Int32" Nullable="false" />
-          <Property Name="ScheduledDate" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="ScheduledDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Availability" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MasterID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentDay" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentStatus" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Level" Type="Int32" Nullable="false" />
+          <Property Name="ActiveStatus" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="StartDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="EndDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="DateCreated" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SiteTable">
           <Key>
@@ -266,14 +263,19 @@
           <Property Name="ShiftsRequired" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="GuardsPerShift" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="RateTable">
+        <EntityType Name="ScheduleTable">
           <Key>
-            <PropertyRef Name="RateID" />
+            <PropertyRef Name="ScheduleID" />
           </Key>
-          <Property Name="RateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScheduleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CompanyID" Type="Int32" Nullable="false" />
-          <Property Name="Grade" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="RatePerHour" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SiteID" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="GuardID" Type="Int32" Nullable="false" />
+          <Property Name="ShiftID" Type="Int32" Nullable="false" />
+          <Property Name="ScheduledDate" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ScheduledDay" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Availability" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -305,6 +307,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="PaymentRecords">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.PaymentRecord">
+              <MappingFragment StoreEntitySet="PaymentRecord">
+                <ScalarProperty Name="PaymentTime" ColumnName="PaymentTime" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ClientDetails">
             <EntityTypeMapping TypeName="PayrolSystemDBModel.ClientDetail">
               <MappingFragment StoreEntitySet="ClientDetails">
@@ -326,24 +340,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CompanyDetails">
-            <EntityTypeMapping TypeName="PayrolSystemDBModel.CompanyDetail">
-              <MappingFragment StoreEntitySet="CompanyDetails">
-                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
-                <ScalarProperty Name="EndDay" ColumnName="EndDay" />
-                <ScalarProperty Name="StartDay" ColumnName="StartDay" />
-                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
-                <ScalarProperty Name="Level" ColumnName="Level" />
-                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
-                <ScalarProperty Name="PaymentDay" ColumnName="PaymentDay" />
-                <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
-                <ScalarProperty Name="MasterID" ColumnName="MasterID" />
-                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GuardsDetails">
             <EntityTypeMapping TypeName="PayrolSystemDBModel.GuardsDetail">
               <MappingFragment StoreEntitySet="GuardsDetails">
@@ -362,29 +358,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="PaymentRecords">
-            <EntityTypeMapping TypeName="PayrolSystemDBModel.PaymentRecord">
-              <MappingFragment StoreEntitySet="PaymentRecord">
-                <ScalarProperty Name="PaymentTime" ColumnName="PaymentTime" />
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
-                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <EntitySetMapping Name="RateTables">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.RateTable">
+              <MappingFragment StoreEntitySet="RateTable">
+                <ScalarProperty Name="RatePerHour" ColumnName="RatePerHour" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="RateID" ColumnName="RateID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ScheduleTables">
-            <EntityTypeMapping TypeName="PayrolSystemDBModel.ScheduleTable">
-              <MappingFragment StoreEntitySet="ScheduleTable">
-                <ScalarProperty Name="Availability" ColumnName="Availability" />
-                <ScalarProperty Name="ScheduledDay" ColumnName="ScheduledDay" />
-                <ScalarProperty Name="ScheduledDate" ColumnName="ScheduledDate" />
-                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
+          <EntitySetMapping Name="CompanyDetails">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.CompanyDetail">
+              <MappingFragment StoreEntitySet="CompanyDetails">
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="EndDay" ColumnName="EndDay" />
+                <ScalarProperty Name="StartDay" ColumnName="StartDay" />
+                <ScalarProperty Name="ActiveStatus" ColumnName="ActiveStatus" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="PaymentDay" ColumnName="PaymentDay" />
+                <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+                <ScalarProperty Name="MasterID" ColumnName="MasterID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -402,13 +400,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RateTables">
-            <EntityTypeMapping TypeName="PayrolSystemDBModel.RateTable">
-              <MappingFragment StoreEntitySet="RateTable">
-                <ScalarProperty Name="RatePerHour" ColumnName="RatePerHour" />
-                <ScalarProperty Name="Grade" ColumnName="Grade" />
+          <EntitySetMapping Name="ScheduleTables">
+            <EntityTypeMapping TypeName="PayrolSystemDBModel.ScheduleTable">
+              <MappingFragment StoreEntitySet="ScheduleTable">
+                <ScalarProperty Name="Availability" ColumnName="Availability" />
+                <ScalarProperty Name="ScheduledDay" ColumnName="ScheduledDay" />
+                <ScalarProperty Name="ScheduledDate" ColumnName="ScheduledDate" />
+                <ScalarProperty Name="ShiftID" ColumnName="ShiftID" />
+                <ScalarProperty Name="GuardID" ColumnName="GuardID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="SiteID" ColumnName="SiteID" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
-                <ScalarProperty Name="RateID" ColumnName="RateID" />
+                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -18,6 +18,7 @@ namespace PayrolSystem.Models.DatabaseFirst
         public int CompanyID { get; set; }
         public int SiteID { get; set; }
         public int EmployeeID { get; set; }
+        public int GuardID { get; set; }
         public int ShiftID { get; set; }
         public string ScheduledDate { get; set; }
         public string ScheduledDay { get; set; }

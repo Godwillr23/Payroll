@@ -71,6 +71,7 @@ namespace PayrolSystem.Controllers
                 model.DateCreated = DateTime.Now.Date.ToShortDateString();
                 model.ActiveStatus = "True";
                 model.JobTitle = "Admin";
+                model.LogPassword = Crypto.Hash(model.LogPassword);
 
                 var ClientExist = IsClientsExist(model.FirstName, model.LastName, model.CompanyID);
                 var EmailExist = IsEmailExist(model.Email);
